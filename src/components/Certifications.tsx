@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { useInView } from './useInView';
-import { Award, ExternalLink } from 'lucide-react';
-import { SiCoursera, SiGithub } from 'react-icons/si';
+import { Award, ExternalLink, Shield, Cloud } from 'lucide-react';
+import { SiGithub, SiGoogle } from 'react-icons/si';
+import { FaAws } from 'react-icons/fa';
 
 interface Cert {
   title: string;
@@ -14,36 +15,43 @@ interface Cert {
 
 const certs: Cert[] = [
   {
-    title: 'Advanced Software Engineering Job Simulation',
-    issuer: 'Walmart (via Forage)',
+    title: 'AWS Cloud Practitioner Essentials',
+    issuer: 'Amazon Web Services',
+    date: 'July 2026',
+    logo: <FaAws className="w-6 h-6" />,
+    accent: 'border-yellow-500/30 text-yellow-400',
+  },
+  {
+    title: 'Advanced SWE Job Simulation',
+    issuer: 'Walmart',
     date: 'June 2026',
     logo: <Award className="w-6 h-6" />,
     accent: 'border-blue-500/30 text-blue-400',
   },
   {
-    title: 'Software Engineering Job Simulation',
-    issuer: 'JPMorgan Chase & Co. (via Forage)',
+    title: 'SWE Job Simulation',
+    issuer: 'JPMorgan Chase & Co.',
     date: 'June 2026',
-    logo: <Award className="w-6 h-6" />,
+    logo: <Shield className="w-6 h-6" />,
     accent: 'border-sky-500/30 text-sky-400',
   },
   {
-    title: 'Software Engineering Job Simulation',
-    issuer: 'HPE (via Forage)',
+    title: 'SWE Job Simulation',
+    issuer: 'HPE',
     date: 'June 2026',
     logo: <Award className="w-6 h-6" />,
     accent: 'border-green-500/30 text-green-400',
   },
   {
     title: 'Google AI Essentials',
-    issuer: 'Coursera / Google',
+    issuer: 'Google',
     date: 'June 2026',
-    logo: <SiCoursera className="w-6 h-6" />,
+    logo: <SiGoogle className="w-6 h-6" />,
     accent: 'border-cyber-cyan/30 text-cyber-cyan',
   },
   {
     title: 'GitHub Foundations',
-    issuer: 'DataCamp',
+    issuer: 'GitHub',
     date: 'June 2026',
     logo: <SiGithub className="w-6 h-6" />,
     accent: 'border-matrix/30 text-matrix',

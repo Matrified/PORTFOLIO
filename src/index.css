@@ -58,11 +58,11 @@ body {
 
 @keyframes glitch {
   0% { transform: translate(0); }
-  20% { transform: translate(-2px, 2px); }
-  40% { transform: translate(-2px, -2px); }
-  60% { transform: translate(2px, 2px); }
-  80% { transform: translate(2px, -2px); }
-  100% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); clip-path: inset(20% 0 40% 0); }
+  40% { transform: translate(-2px, -2px); clip-path: inset(60% 0 10% 0); }
+  60% { transform: translate(2px, 2px); clip-path: inset(40% 0 30% 0); }
+  80% { transform: translate(2px, -2px); clip-path: inset(10% 0 70% 0); }
+  100% { transform: translate(0); clip-path: inset(0); }
 }
 
 @keyframes scanline {
@@ -164,4 +164,111 @@ body {
 
 .matrix-border:hover::before {
   opacity: 1;
+}
+
+/* Glitch text effect */
+.glitch-text {
+  position: relative;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch-text::before {
+  color: #00ff41;
+  animation: glitch 3s infinite;
+  clip-path: inset(0 0 0 0);
+  text-shadow: -2px 0 #00d4ff;
+}
+
+.glitch-text::after {
+  color: #00d4ff;
+  animation: glitch 3s infinite reverse;
+  clip-path: inset(0 0 0 0);
+  text-shadow: 2px 0 #b14aed;
+}
+
+.glitch-text:hover::before,
+.glitch-text:hover::after {
+  animation-duration: 0.3s;
+}
+
+/* 3D tilt card */
+.tilt-card {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.tilt-card:hover {
+  transform: rotateY(-5deg) rotateX(5deg) scale(1.02);
+  box-shadow: 0 20px 60px rgba(0, 255, 65, 0.1), 0 0 30px rgba(0, 255, 65, 0.05);
+}
+
+/* Gradient border animation */
+@keyframes borderRotate {
+  0% { --angle: 0deg; }
+  100% { --angle: 360deg; }
+}
+
+.gradient-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: conic-gradient(from var(--angle, 0deg), #00ff41, #00d4ff, #b14aed, #00ff41);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s;
+  animation: borderRotate 3s linear infinite;
+}
+
+.gradient-border:hover::before {
+  opacity: 1;
+}
+
+/* Spotlight hover effect */
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.spotlight-card::after {
+  content: '';
+  position: absolute;
+  top: var(--mouse-y, 50%);
+  left: var(--mouse-x, 50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(0, 255, 65, 0.08) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.spotlight-card:hover::after {
+  opacity: 1;
+}
+
+/* Typewriter cursor */
+.typewriter-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1.2em;
+  background: #00ff41;
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
 }

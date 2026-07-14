@@ -71,7 +71,7 @@ export default function Hero() {
         >
           <h1 className="text-5xl sm:text-7xl lg:text-8xl font-display font-bold mb-2">
             <span className="text-white">Hi, I'm </span>
-            <span className="text-gradient-matrix relative">
+            <span className="glitch-text text-gradient-matrix relative" data-text="Hadi">
               Hadi
               <span className="absolute -bottom-2 left-0 right-0 h-[3px] bg-gradient-to-r from-matrix to-cyber-cyan rounded-full" />
             </span>
@@ -131,6 +131,14 @@ export default function Hero() {
             className="px-8 py-3 rounded-lg border border-matrix/30 text-matrix font-mono font-semibold text-sm hover:bg-matrix/10 hover:border-matrix/60 transition-all"
           >
             Contact Me
+          </a>
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-3 rounded-lg border border-cyber-cyan/30 text-cyber-cyan font-mono font-semibold text-sm hover:bg-cyber-cyan/10 hover:border-cyber-cyan/60 transition-all"
+          >
+            Download Resume
           </a>
         </motion.div>
 

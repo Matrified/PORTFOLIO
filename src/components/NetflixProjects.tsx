@@ -141,7 +141,7 @@ export default function NetflixProjects() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: i * 0.15 }}
               onClick={() => setSelectedProject(project)}
-              className="netflix-card group cursor-pointer rounded-xl overflow-hidden bg-dark-card border border-dark-border relative"
+              className="netflix-card tilt-card group cursor-pointer rounded-xl overflow-hidden bg-dark-card border border-dark-border relative transition-all duration-300"
             >
               {/* Card Top */}
               <div className={`relative h-48 bg-gradient-to-br ${project.gradient} flex items-center justify-center overflow-hidden`}>

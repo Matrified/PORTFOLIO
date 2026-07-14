@@ -95,7 +95,7 @@ export default function Skills() {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: catIndex * 0.15 }}
-              className="glass-card rounded-2xl p-6 group hover:border-matrix/30 transition-all"
+              className="glass-card spotlight-card rounded-2xl p-6 group hover:border-matrix/30 transition-all"
             >
               <div className="flex items-center gap-3 mb-6">
                 {category.icon}
