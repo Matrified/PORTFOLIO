@@ -60,8 +60,8 @@ export default function Contact() {
             Let's <span className="text-gradient-matrix">Connect</span>
           </h2>
           <p className="text-gray-400 mt-4 max-w-lg mx-auto">
-            I'm currently looking for internship opportunities and would love to connect.
-            Whether you have a question or just want to say hi — my inbox is always open!
+            Have a project, engineering challenge, or technical idea worth discussing?
+            Send a message and I'll get back to you.
           </p>
         </motion.div>
 
@@ -82,7 +82,7 @@ export default function Contact() {
                 <div>
                   <h4 className="text-white font-semibold">Location</h4>
                   <p className="text-gray-400 text-sm">Cyberjaya, Malaysia</p>
-                  <p className="text-gray-500 text-xs font-mono mt-1">Available for remote & on-site</p>
+                  <p className="text-gray-500 text-xs font-mono mt-1">Based in Cyberjaya</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -122,14 +122,13 @@ export default function Contact() {
               ))}
             </div>
 
-            {/* Fun terminal */}
+            {/* Conversation topics */}
             <div className="glass-card rounded-xl p-4">
               <div className="font-mono text-xs space-y-1">
-                <p className="text-gray-500">$ hadi --status</p>
-                <p className="text-matrix">✓ Open for internship opportunities</p>
-                <p className="text-matrix">✓ Available for collaboration</p>
-                <p className="text-matrix">✓ Ready to learn and grow</p>
-                <p className="text-gray-500 mt-2">$ _<span className="animate-pulse">|</span></p>
+                <p className="text-gray-500">$ topics --list</p>
+                <p className="text-matrix">software engineering</p>
+                <p className="text-cyber-cyan">backend systems</p>
+                <p className="text-cyber-purple">product development</p>
               </div>
             </div>
           </motion.div>

@@ -14,10 +14,9 @@ const botResponses: Record<string, string> = {
   hi: "Hello! Welcome to Hadi's portfolio. What would you like to know about him?",
   hey: "Hey! I can tell you about Hadi's skills, projects, education, or certifications. What interests you?",
   name: "His full name is Hadi Abdulla. He goes by 'Matrified' on GitHub.",
-  education: "Hadi is currently pursuing a BSc in Computer Science (Hons) with Software Engineering at MMU Cyberjaya, Malaysia, with a 3.80 CGPA.",
+  education: "Hadi is pursuing a BSc in Computer Science (Hons), specializing in Software Engineering at Multimedia University in Cyberjaya, Malaysia.",
   university: "Hadi studies at Multimedia University (MMU) in Cyberjaya, Malaysia.",
   mmu: "MMU Cyberjaya is where Hadi is pursuing his Computer Science degree.",
-  cgpa: "Hadi holds a 3.80 CGPA in his BSc Computer Science (Hons) program.",
   skills: "Hadi's core languages are Python, Java, C++, and TypeScript. On the frameworks side he's worked with React, Next.js, Flask, and FastAPI, plus PostgreSQL, Redis, and Docker. Check the Skills section for the full breakdown.",
   python: "Python is one of Hadi's strongest languages. He used it to build both Voidfall's engine and RouteWise's optimization backend.",
   java: "Hadi is proficient in Java, used for object-oriented programming coursework and projects.",
@@ -29,8 +28,6 @@ const botResponses: Record<string, string> = {
   github: "You can find Hadi on GitHub at github.com/Matrified.",
   certifications: "Hadi has completed software engineering job simulations with HPE, JPMorgan Chase & Co., and Walmart via Forage, plus Google AI Essentials and GitHub Foundations. See the Certifications section.",
   certificate: "Check the Certifications section for Hadi's job simulations and course completions.",
-  internship: "Hadi is looking for a software engineering internship for his upcoming internship semester.",
-  hire: "Hadi is actively looking for internship opportunities. Reach out through the Contact section.",
   contact: "You can reach Hadi through the Contact section below, or find him on GitHub at github.com/Matrified.",
   thanks: "You're welcome. Feel free to ask more questions or explore the portfolio.",
   thank: "You're welcome. Explore the portfolio for more about Hadi.",
@@ -44,7 +41,7 @@ const quickQuestions = [
   "What are his skills?",
   "Tell me about his projects",
   "What certifications does he have?",
-  "Is he available for internships?",
+  "How can I contact him?",
 ];
 
 function getBotResponse(input: string): string {
@@ -61,11 +58,11 @@ function getBotResponse(input: string): string {
   }
 
   if (lower.includes('help') || lower.includes('what can')) {
-    return "I can tell you about Hadi's:\n- Education\n- Technical skills\n- Projects\n- Certifications\n- Internship availability\n\nJust ask away.";
+    return "I can tell you about Hadi's:\n- Education\n- Technical skills\n- Projects\n- Certifications\n- Professional experience\n\nJust ask away.";
   }
 
   if (lower.includes('who')) {
-    return "Hadi Abdulla is a Computer Science student at MMU Cyberjaya, Malaysia, specializing in Software Engineering. He builds full-stack projects and is looking for a software engineering internship.";
+    return "Hadi Abdulla is a Computer Science student at MMU Cyberjaya, Malaysia, specializing in Software Engineering. He builds full-stack products, backend systems, optimization tools, and AI-powered applications.";
   }
 
   if (lower.includes('where')) {

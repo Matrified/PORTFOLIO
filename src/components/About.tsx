@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
 import { useInView } from './useInView';
-import { MapPin, GraduationCap, Code2, Rocket } from 'lucide-react';
+import { MapPin, GraduationCap, Code2, Layers3 } from 'lucide-react';
 
 const facts = [
   { icon: <MapPin className="w-5 h-5" />, label: 'Based In', value: 'Cyberjaya, Malaysia', color: 'text-matrix' },
   { icon: <GraduationCap className="w-5 h-5" />, label: 'University', value: 'MMU Cyberjaya', color: 'text-cyber-cyan' },
   { icon: <Code2 className="w-5 h-5" />, label: 'Focus', value: 'Software Engineering', color: 'text-cyber-purple' },
-  { icon: <Rocket className="w-5 h-5" />, label: 'Status', value: 'Open for Internships', color: 'text-yellow-400' },
+  { icon: <Layers3 className="w-5 h-5" />, label: 'Interests', value: 'Full-Stack & Backend', color: 'text-yellow-400' },
 ];
 
 export default function About() {
@@ -56,8 +56,7 @@ export default function About() {
                   I'm currently pursuing my{' '}
                   <span className="text-white">BSc in Computer Science (Hons) with
                   Software Engineering</span> at <span className="text-matrix">MMU Cyberjaya</span>,
-                  where I've maintained a <span className="text-cyber-cyan">3.80 CGPA</span> while
-                  building full-stack projects on the side.
+                  while building full-stack projects beyond my coursework.
                 </p>
                 <p>
                   I like taking projects further than the assignment brief asks for — building
@@ -65,8 +64,9 @@ export default function About() {
                   instead of a simple chat wrapper around an LLM.
                 </p>
                 <p>
-                  I'm currently preparing for my upcoming <span className="text-cyber-purple font-semibold">internship</span>{' '}
-                  and constantly expanding my skills in modern software development.
+                  My work spans backend architecture, API design, interactive interfaces, testing,
+                  and deployment. I care about clear systems, thoughtful trade-offs, and software
+                  that remains understandable as it grows.
                 </p>
               </div>
 
@@ -102,13 +102,13 @@ export default function About() {
               ))}
             </div>
 
-            {/* Terminal status */}
-            <div className="glass-card rounded-xl p-4 mt-3">
-              <div className="font-mono text-xs space-y-1">
-                <p className="text-gray-500">$ hadi --status</p>
-                <p className="text-matrix">&#10003; Open for internship opportunities</p>
-                <p className="text-matrix">&#10003; Available for collaboration</p>
-                <p className="text-matrix">&#10003; Ready to learn and grow</p>
+            {/* Engineering principles */}
+            <div className="glass-card rounded-xl p-5 mt-3">
+              <p className="font-mono text-xs text-gray-500 mb-4"><span className="text-matrix">#</span> engineering_principles</p>
+              <div className="grid grid-cols-3 gap-3 text-center">
+                {['Clarity', 'Reliability', 'Craft'].map((item) => (
+                  <div key={item} className="rounded-lg border border-dark-border bg-dark-surface px-2 py-3 text-xs text-gray-300">{item}</div>
+                ))}
               </div>
             </div>
           </motion.div>
