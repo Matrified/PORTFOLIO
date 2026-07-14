@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useInView } from './useInView';
-import { Award, ExternalLink, Shield, Cloud } from 'lucide-react';
+import { Award, ExternalLink, Shield } from 'lucide-react';
 import { SiGithub, SiGoogle } from 'react-icons/si';
 import { FaAws } from 'react-icons/fa';
 
@@ -71,7 +71,7 @@ export default function Certifications() {
           className="mb-16"
         >
           <div className="flex items-center gap-3 mb-4">
-            <span className="font-mono text-matrix text-sm">05.</span>
+            <span className="font-mono text-matrix text-sm">04.</span>
             <h2 className="text-3xl sm:text-4xl font-display font-bold text-white">Certifications</h2>
             <div className="flex-1 h-[1px] bg-dark-border ml-4" />
           </div>

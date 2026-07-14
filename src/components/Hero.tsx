@@ -1,183 +1,101 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDown, MapPin, GraduationCap } from 'lucide-react';
+import { ArrowUpRight, ChevronDown, GraduationCap, MapPin, ShieldCheck, Terminal } from 'lucide-react';
+import { SiGithub } from 'react-icons/si';
 import MatrixRain from './MatrixRain';
 
-const roles = [
-  'Software Engineer',
-  'CS Student @ MMU',
-  'Full-Stack Developer',
-  'Problem Solver',
-  'Open Source Enthusiast',
+const roles = ['Software Engineer', 'Full-Stack Developer', 'Backend Builder', 'Systems Thinker'];
+const terminalLines = [
+  { key: 'identity', value: 'Hadi Abdulla' },
+  { key: 'focus', value: 'Software Engineering' },
+  { key: 'runtime', value: 'Python · TypeScript · Java · C++' },
+  { key: 'status', value: 'Open for internships', live: true },
 ];
 
 export default function Hero() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    const currentRole = roles[roleIndex];
-    const timeout = setTimeout(
-      () => {
-        if (!isDeleting) {
-          if (displayText.length < currentRole.length) {
-            setDisplayText(currentRole.substring(0, displayText.length + 1));
-          } else {
-            setTimeout(() => setIsDeleting(true), 2000);
-          }
-        } else {
-          if (displayText.length > 0) {
-            setDisplayText(displayText.substring(0, displayText.length - 1));
-          } else {
-            setIsDeleting(false);
-            setRoleIndex((prev) => (prev + 1) % roles.length);
-          }
-        }
-      },
-      isDeleting ? 40 : 80
-    );
-    return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, roleIndex]);
+    const role = roles[roleIndex];
+    const timeout = window.setTimeout(() => {
+      if (!deleting && displayText.length < role.length) setDisplayText(role.slice(0, displayText.length + 1));
+      else if (!deleting) setDeleting(true);
+      else if (displayText.length) setDisplayText(displayText.slice(0, -1));
+      else { setDeleting(false); setRoleIndex(index => (index + 1) % roles.length); }
+    }, deleting ? 40 : displayText === role ? 1300 : 75);
+    return () => window.clearTimeout(timeout);
+  }, [displayText, deleting, roleIndex]);
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section id="home" className="relative min-h-screen overflow-hidden px-4 sm:px-6 lg:px-8">
       <MatrixRain />
-      
-      {/* Gradient overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-dark-bg via-transparent to-dark-bg z-[1]" />
-      <div className="absolute inset-0 bg-gradient-to-r from-dark-bg/80 via-transparent to-dark-bg/80 z-[1]" />
-      
-      {/* Radial glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-matrix/5 rounded-full blur-[120px] z-[1]" />
+      <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_20%_45%,rgba(0,255,65,0.10),transparent_28%),radial-gradient(circle_at_80%_35%,rgba(0,212,255,0.08),transparent_30%),linear-gradient(to_bottom,rgba(5,5,5,.3),#050505_92%)]" />
+      <div className="cyber-grid absolute inset-0 z-[1] opacity-30 [mask-image:linear-gradient(to_bottom,black,transparent_90%)]" />
+      <div className="orbital-ring absolute left-[70%] top-1/2 z-[1] hidden h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full lg:block" />
 
-      <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
-        {/* Terminal-style greeting */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full border border-matrix/20 bg-matrix/5"
-        >
-          <span className="w-2 h-2 rounded-full bg-matrix animate-pulse" />
-          <span className="font-mono text-sm text-matrix">system.out.println("Welcome!");</span>
-        </motion.div>
+      <div className="relative z-10 mx-auto grid min-h-screen max-w-7xl items-center gap-14 pt-24 pb-20 lg:grid-cols-[1.1fr_.9fr]">
+        <div>
+          <motion.div initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} className="inline-flex items-center gap-2 rounded-full border border-matrix/20 bg-black/50 px-4 py-2 backdrop-blur-xl">
+            <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-matrix opacity-60" /><span className="relative h-2 w-2 rounded-full bg-matrix" /></span>
+            <span className="font-mono text-xs text-matrix">AVAILABLE_FOR_INTERNSHIP</span>
+          </motion.div>
 
-        {/* Name */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-display font-bold mb-2">
-            <span className="text-white">Hi, I'm </span>
-            <span className="glitch-text text-gradient-matrix relative" data-text="Hadi">
-              Hadi
-              <span className="absolute -bottom-2 left-0 right-0 h-[3px] bg-gradient-to-r from-matrix to-cyber-cyan rounded-full" />
-            </span>
-          </h1>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-light text-gray-400 mt-4">
-            Abdulla
-          </h2>
-        </motion.div>
+          <motion.div initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.7 }} className="mt-7">
+            <p className="mb-3 font-mono text-sm tracking-[0.3em] text-gray-600">HELLO, WORLD. I AM</p>
+            <h1 className="font-display text-6xl font-black leading-[0.9] tracking-[-0.06em] text-white sm:text-8xl xl:text-9xl">
+              HADI <span className="hero-gradient">ABDULLA</span>
+            </h1>
+          </motion.div>
 
-        {/* Typing animation */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          className="mt-8 flex items-center justify-center"
-        >
-          <div className="font-mono text-lg sm:text-xl lg:text-2xl">
-            <span className="text-matrix mr-2">&gt;</span>
-            <span className="text-gray-300">{displayText}</span>
-            <span className="inline-block w-[3px] h-6 bg-matrix ml-1 animate-pulse" />
-          </div>
-        </motion.div>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }} className="mt-7 flex items-center font-mono text-lg sm:text-xl">
+            <span className="mr-3 text-matrix">~/hadi $</span><span className="text-gray-300">{displayText}</span><span className="ml-1 h-6 w-[2px] animate-pulse bg-matrix" />
+          </motion.div>
 
-        {/* Info badges */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-          className="mt-10 flex flex-wrap items-center justify-center gap-4"
-        >
-          <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-dark-card border border-dark-border text-sm text-gray-400">
-            <MapPin className="w-4 h-4 text-matrix" />
-            Malaysia
-          </div>
-          <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-dark-card border border-dark-border text-sm text-gray-400">
-            <GraduationCap className="w-4 h-4 text-cyber-cyan" />
-            BSc CS @ MMU Cyberjaya
-          </div>
-        </motion.div>
+          <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }} className="mt-6 max-w-2xl text-base leading-8 text-gray-400 sm:text-lg">
+            I design software where the interesting work lives: deterministic game engines, real-world route optimization, and AI products with structured feedback loops.
+          </motion.p>
 
-        {/* CTA Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.5, duration: 0.6 }}
-          className="mt-10 flex flex-wrap items-center justify-center gap-4"
-        >
-          <a
-            href="#projects"
-            className="group relative px-8 py-3 rounded-lg bg-matrix text-dark-bg font-mono font-semibold text-sm overflow-hidden transition-all hover:shadow-[0_0_30px_rgba(0,255,65,0.3)]"
-          >
-            <span className="relative z-10">View My Work</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-matrix to-cyber-cyan opacity-0 group-hover:opacity-100 transition-opacity" />
-          </a>
-          <a
-            href="#contact"
-            className="px-8 py-3 rounded-lg border border-matrix/30 text-matrix font-mono font-semibold text-sm hover:bg-matrix/10 hover:border-matrix/60 transition-all"
-          >
-            Contact Me
-          </a>
-          <a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-8 py-3 rounded-lg border border-cyber-cyan/30 text-cyber-cyan font-mono font-semibold text-sm hover:bg-cyber-cyan/10 hover:border-cyber-cyan/60 transition-all"
-          >
-            Download Resume
-          </a>
-        </motion.div>
+          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.05 }} className="mt-7 flex flex-wrap gap-3 text-xs text-gray-500">
+            <span className="flex items-center gap-2 rounded-full border border-dark-border bg-black/40 px-3 py-2"><MapPin className="h-3.5 w-3.5 text-matrix" />Cyberjaya, Malaysia</span>
+            <span className="flex items-center gap-2 rounded-full border border-dark-border bg-black/40 px-3 py-2"><GraduationCap className="h-3.5 w-3.5 text-cyber-cyan" />BSc CS @ MMU</span>
+          </motion.div>
 
-        {/* Stats bar */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.8, duration: 0.8 }}
-          className="mt-16 grid grid-cols-3 gap-8 max-w-md mx-auto"
-        >
-          {[
-            { value: '3+', label: 'Projects Shipped' },
-            { value: '5', label: 'Certifications' },
-            { value: '3.80', label: 'CGPA' },
-          ].map((stat) => (
-            <div key={stat.label} className="text-center">
-              <div className="text-2xl sm:text-3xl font-display font-bold text-matrix">{stat.value}</div>
-              <div className="text-xs text-gray-500 font-mono mt-1">{stat.label}</div>
+          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2 }} className="mt-9 flex flex-wrap gap-3">
+            <a href="#projects" className="magnetic-button group inline-flex items-center gap-2 rounded-lg bg-matrix px-6 py-3 font-mono text-sm font-bold text-black shadow-[0_0_35px_rgba(0,255,65,.18)]">Explore my work <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></a>
+            <a href="https://github.com/Matrified" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-dark-border bg-black/50 px-6 py-3 font-mono text-sm text-gray-300 backdrop-blur-xl hover:border-cyber-cyan/40 hover:text-cyber-cyan transition-all"><SiGithub className="h-4 w-4" />GitHub</a>
+            <a href="#contact" className="rounded-lg border border-dark-border px-6 py-3 font-mono text-sm text-gray-400 hover:border-matrix/40 hover:text-matrix transition-all">Contact</a>
+          </motion.div>
+        </div>
+
+        <motion.div initial={{ opacity: 0, scale: 0.92, rotateY: 8 }} animate={{ opacity: 1, scale: 1, rotateY: 0 }} transition={{ delay: 0.45, duration: 0.8 }} className="relative hidden lg:block">
+          <div className="absolute -inset-12 rounded-full bg-gradient-to-br from-matrix/10 via-transparent to-cyber-cyan/10 blur-3xl" />
+          <div className="terminal-shell relative overflow-hidden rounded-2xl border border-matrix/20 bg-black/75 shadow-[0_35px_100px_rgba(0,0,0,.8),0_0_60px_rgba(0,255,65,.08)] backdrop-blur-2xl">
+            <div className="flex items-center justify-between border-b border-dark-border bg-white/[0.025] px-5 py-4">
+              <div className="flex gap-2"><span className="h-2.5 w-2.5 rounded-full bg-red-500" /><span className="h-2.5 w-2.5 rounded-full bg-yellow-500" /><span className="h-2.5 w-2.5 rounded-full bg-green-500" /></div>
+              <span className="font-mono text-[10px] tracking-[0.25em] text-gray-600">IDENTITY_KERNEL</span><Terminal className="h-4 w-4 text-matrix" />
             </div>
-          ))}
+            <div className="space-y-6 p-7 font-mono text-sm">
+              <div className="text-gray-600"><span className="text-matrix">$</span> boot --profile hadi.dev</div>
+              {terminalLines.map((line, index) => (
+                <motion.div key={line.key} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1 + index * 0.16 }} className="grid grid-cols-[90px_1fr] gap-4">
+                  <span className="text-cyber-cyan">{line.key}</span><span className="text-gray-300">{line.value}{line.live && <span className="ml-2 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-matrix" />}</span>
+                </motion.div>
+              ))}
+              <div className="h-px bg-gradient-to-r from-matrix/30 via-dark-border to-transparent" />
+              <div className="flex items-center gap-2 text-xs text-gray-500"><ShieldCheck className="h-4 w-4 text-matrix" />Portfolio signal verified. All systems operational.</div>
+              <div className="text-gray-600"><span className="text-matrix">$</span> <span className="terminal-caret" /></div>
+            </div>
+            <div className="terminal-scan absolute inset-x-0 h-20 bg-gradient-to-b from-transparent via-matrix/[0.035] to-transparent" />
+          </div>
+          <span className="code-fragment -left-10 top-10">{'{ build: true }'}</span><span className="code-fragment -right-7 bottom-16">status: 200</span>
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
-      >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
-          className="flex flex-col items-center gap-2"
-        >
-          <span className="text-xs font-mono text-gray-500">scroll</span>
-          <ChevronDown className="w-5 h-5 text-matrix" />
-        </motion.div>
-      </motion.div>
+      <motion.a href="#about" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.7 }} className="absolute bottom-7 left-1/2 z-10 -translate-x-1/2 text-center font-mono text-[10px] tracking-[0.25em] text-gray-600">
+        SCROLL_TO_DECODE<ChevronDown className="mx-auto mt-2 h-5 w-5 animate-bounce text-matrix" />
+      </motion.a>
     </section>
   );
 }

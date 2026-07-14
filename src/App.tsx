@@ -4,17 +4,21 @@ import About from './components/About';
 import Skills from './components/Skills';
 import NetflixProjects from './components/NetflixProjects';
 import Certifications from './components/Certifications';
-import Journey from './components/Journey';
+import Experience from './components/Experience';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
 import CursorGlow from './components/CursorGlow';
+import CyberOverlay from './components/CyberOverlay';
+import CommandDeck from './components/CommandDeck';
 import SectionDivider from './components/SectionDivider';
 
 export default function App() {
   return (
     <div className="relative min-h-screen bg-dark-bg text-white overflow-x-hidden">
       <CursorGlow />
+      <CyberOverlay />
+      <CommandDeck />
       <Navbar />
       
       <main>
@@ -28,7 +32,7 @@ export default function App() {
         <SectionDivider />
         <Certifications />
         <SectionDivider />
-        <Journey />
+        <Experience />
         <SectionDivider />
         <Contact />
       </main>

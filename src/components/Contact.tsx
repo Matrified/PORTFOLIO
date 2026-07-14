@@ -55,7 +55,7 @@ export default function Contact() {
           transition={{ duration: 0.6 }}
           className="mb-16 text-center"
         >
-          <span className="font-mono text-matrix text-sm">05.</span>
+          <span className="font-mono text-matrix text-sm">06.</span>
           <h2 className="text-4xl sm:text-5xl font-display font-bold text-white mt-4">
             Let's <span className="text-gradient-matrix">Connect</span>
           </h2>
