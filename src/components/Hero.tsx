@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, ChevronDown, GraduationCap, MapPin } from 'lucide-react';
+import { ArrowUpRight, ChevronDown, Download, GraduationCap, MapPin } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
 import MatrixRain from './MatrixRain';
 
@@ -27,7 +27,6 @@ export default function Hero() {
       <MatrixRain />
       <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_50%_40%,rgba(0,255,65,0.10),transparent_32%),radial-gradient(circle_at_76%_35%,rgba(0,212,255,0.07),transparent_26%),linear-gradient(to_bottom,rgba(5,5,5,.25),#050505_92%)]" />
       <div className="cyber-grid absolute inset-0 z-[1] opacity-25 [mask-image:linear-gradient(to_bottom,black,transparent_90%)]" />
-      <div className="orbital-ring absolute left-1/2 top-[46%] z-[1] hidden h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full sm:block" />
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center pb-20 pt-24 text-center">
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="font-mono text-xs tracking-[0.35em] text-matrix/80">
@@ -57,7 +56,7 @@ export default function Hero() {
         <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.15 }} className="mt-9 flex flex-wrap justify-center gap-3">
           <a href="#projects" className="magnetic-button group inline-flex items-center gap-2 rounded-lg bg-matrix px-6 py-3 font-mono text-sm font-bold text-black shadow-[0_0_35px_rgba(0,255,65,.18)]">Explore my work <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></a>
           <a href="https://github.com/Matrified" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-dark-border bg-black/50 px-6 py-3 font-mono text-sm text-gray-300 backdrop-blur-xl hover:border-cyber-cyan/40 hover:text-cyber-cyan transition-all"><SiGithub className="h-4 w-4" />GitHub</a>
-          <a href="#contact" className="rounded-lg border border-dark-border bg-black/30 px-6 py-3 font-mono text-sm text-gray-400 backdrop-blur-xl hover:border-matrix/40 hover:text-matrix transition-all">Contact</a>
+          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-dark-border bg-black/30 px-6 py-3 font-mono text-sm text-gray-400 backdrop-blur-xl hover:border-matrix/40 hover:text-matrix transition-all"><Download className="h-4 w-4" />Resume</a>
         </motion.div>
 
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.45 }} className="absolute bottom-24 left-8 hidden font-mono text-[9px] tracking-[0.25em] text-matrix/20 lg:block">BUILD · TEST · ITERATE</motion.div>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from './useInView';
 import { Mail, MapPin, Send, ArrowUpRight } from 'lucide-react';
+import Radar from './Radar';
 
 const socialLinks = [
   {
@@ -122,14 +123,13 @@ export default function Contact() {
               ))}
             </div>
 
-            {/* Conversation topics */}
+            {/* Radar */}
             <div className="glass-card rounded-xl p-4">
-              <div className="font-mono text-xs space-y-1">
-                <p className="text-gray-500">$ topics --list</p>
-                <p className="text-matrix">software engineering</p>
-                <p className="text-cyber-cyan">backend systems</p>
-                <p className="text-cyber-purple">product development</p>
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="font-mono text-sm text-gray-500"><span className="text-matrix">#</span> signal_radar</h4>
+                <span className="font-mono text-[10px] text-matrix animate-pulse">ONLINE</span>
               </div>
+              <Radar />
             </div>
           </motion.div>
 
