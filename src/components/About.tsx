@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from './useInView';
 import { MapPin, GraduationCap, Code2, Layers3 } from 'lucide-react';
+import DecryptText from './DecryptText';
 
 const facts = [
   { icon: <MapPin className="w-5 h-5" />, label: 'Based In', value: 'Cyberjaya, Malaysia', color: 'text-matrix' },
@@ -24,7 +25,7 @@ export default function About() {
         >
           <div className="flex items-center gap-3 mb-4">
             <span className="font-mono text-matrix text-sm">01.</span>
-            <h2 className="text-3xl sm:text-4xl font-display font-bold text-white">About Me</h2>
+            <DecryptText as="h2" text="About Me" className="text-3xl sm:text-4xl font-display font-bold text-white" />
             <div className="flex-1 h-[1px] bg-dark-border ml-4" />
           </div>
           <p className="text-gray-500 font-mono text-sm mt-2">// getting to know me</p>

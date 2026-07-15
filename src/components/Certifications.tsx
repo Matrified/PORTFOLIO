@@ -3,6 +3,7 @@ import { useInView } from './useInView';
 import { Award, ExternalLink, Shield } from 'lucide-react';
 import { SiGithub, SiGoogle } from 'react-icons/si';
 import { FaAws } from 'react-icons/fa';
+import DecryptText from './DecryptText';
 
 interface Cert {
   title: string;
@@ -72,7 +73,7 @@ export default function Certifications() {
         >
           <div className="flex items-center gap-3 mb-4">
             <span className="font-mono text-matrix text-sm">04.</span>
-            <h2 className="text-3xl sm:text-4xl font-display font-bold text-white">Certifications</h2>
+            <DecryptText as="h2" text="Certifications" className="text-3xl sm:text-4xl font-display font-bold text-white" />
             <div className="flex-1 h-[1px] bg-dark-border ml-4" />
           </div>
           <p className="text-gray-500 font-mono text-sm mt-2">// verified credentials</p>

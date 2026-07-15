@@ -9,6 +9,7 @@ import {
 } from 'react-icons/si';
 import { FaJava, FaAws } from 'react-icons/fa';
 import { Code2, Server, Database, Wrench } from 'lucide-react';
+import DecryptText from './DecryptText';
 
 const skillCategories = [
   {
@@ -81,7 +82,7 @@ export default function Skills() {
         >
           <div className="flex items-center gap-3 mb-4">
             <span className="font-mono text-matrix text-sm">02.</span>
-            <h2 className="text-3xl sm:text-4xl font-display font-bold text-white">Skills & Tech</h2>
+            <DecryptText as="h2" text="Skills & Tech" className="text-3xl sm:text-4xl font-display font-bold text-white" />
             <div className="flex-1 h-[1px] bg-dark-border ml-4" />
           </div>
           <p className="text-gray-500 font-mono text-sm mt-2">// my technical toolkit</p>

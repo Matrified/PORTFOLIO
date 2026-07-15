@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from './useInView';
 import { ExternalLink, Play, X, Route, Swords, MessageSquareText } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
+import DecryptText from './DecryptText';
+import TiltCard from './TiltCard';
 
 interface Project {
   id: number;
@@ -109,7 +111,7 @@ export default function NetflixProjects() {
         >
           <div className="flex items-center gap-3 mb-4">
             <span className="font-mono text-matrix text-sm">03.</span>
-            <h2 className="text-3xl sm:text-4xl font-display font-bold text-white">Featured Projects</h2>
+            <DecryptText as="h2" text="Featured Projects" className="text-3xl sm:text-4xl font-display font-bold text-white" />
             <div className="flex-1 h-[1px] bg-dark-border ml-4" />
           </div>
           <p className="text-gray-500 font-mono text-sm mt-2">// things I've built end to end</p>
@@ -140,9 +142,12 @@ export default function NetflixProjects() {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: i * 0.15 }}
-              onClick={() => setSelectedProject(project)}
-              className="netflix-card tilt-card group cursor-pointer rounded-xl overflow-hidden bg-dark-card border border-dark-border relative transition-all duration-300"
             >
+            <TiltCard
+              max={9}
+              className="group cursor-pointer rounded-xl overflow-hidden bg-dark-card border border-dark-border h-full hover:border-matrix/40"
+            >
+            <div onClick={() => setSelectedProject(project)}>
               {/* Card Top */}
               <div className={`relative h-48 bg-gradient-to-br ${project.gradient} flex items-center justify-center overflow-hidden`}>
                 <div className="text-white/80 group-hover:scale-110 transition-transform duration-500">
@@ -190,6 +195,8 @@ export default function NetflixProjects() {
                   <span className="text-xs text-gray-500">{project.language}</span>
                 </div>
               </div>
+            </div>
+            </TiltCard>
             </motion.div>
           ))}
         </div>

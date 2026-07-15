@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from './useInView';
 import { Code2, MonitorCog, MapPin, Radio, ArrowUpRight } from 'lucide-react';
+import DecryptText from './DecryptText';
 
 const roles = [
   {
@@ -48,7 +49,7 @@ export default function Experience() {
         <motion.div initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} className="mb-12">
           <div className="flex items-center gap-3 mb-4">
             <span className="font-mono text-matrix text-sm">05.</span>
-            <h2 className="text-3xl sm:text-4xl font-display font-bold text-white">Field Experience</h2>
+            <DecryptText as="h2" text="Field Experience" className="text-3xl sm:text-4xl font-display font-bold text-white" />
             <div className="flex-1 h-px bg-dark-border ml-4" />
           </div>
           <p className="text-gray-500 font-mono text-sm">// real environments, real users, real delivery</p>
