@@ -11,7 +11,6 @@ import Chatbot from './components/Chatbot';
 import CursorGlow from './components/CursorGlow';
 import CyberOverlay from './components/CyberOverlay';
 import CommandDeck from './components/CommandDeck';
-import BootSequence from './components/BootSequence';
 import SectionDivider from './components/SectionDivider';
 import { useEffect } from 'react';
 import { initGlobalSounds } from './utils/sound';
@@ -23,7 +22,6 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen bg-dark-bg text-white overflow-x-hidden">
-      <BootSequence />
       <CursorGlow />
       <CyberOverlay />
       <CommandDeck />
