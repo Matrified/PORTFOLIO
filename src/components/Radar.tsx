@@ -1,18 +1,20 @@
 import { useEffect, useRef } from 'react';
+import { playRadarPing, startRadarAmbient, stopRadarAmbient } from '../utils/sound';
 
 interface Blip {
   angle: number;   // radians, position around center
   radius: number;  // 0..1 fraction of max radius
   label: string;
   lit: number;     // brightness 0..1, spikes when sweep passes
+  pinged: boolean; // guards one ping per sweep pass
 }
 
 const blips: Blip[] = [
-  { angle: -Math.PI / 4, radius: 0.55, label: 'Backend', lit: 0 },
-  { angle: Math.PI / 6, radius: 0.78, label: 'Full-Stack', lit: 0 },
-  { angle: (Math.PI * 3) / 4, radius: 0.42, label: 'AI', lit: 0 },
-  { angle: Math.PI, radius: 0.68, label: 'Systems', lit: 0 },
-  { angle: -(Math.PI * 2) / 3, radius: 0.3, label: 'APIs', lit: 0 },
+  { angle: -Math.PI / 4, radius: 0.55, label: 'Backend', lit: 0, pinged: false },
+  { angle: Math.PI / 6, radius: 0.78, label: 'Full-Stack', lit: 0, pinged: false },
+  { angle: (Math.PI * 3) / 4, radius: 0.42, label: 'AI', lit: 0, pinged: false },
+  { angle: Math.PI, radius: 0.68, label: 'Systems', lit: 0, pinged: false },
+  { angle: -(Math.PI * 2) / 3, radius: 0.3, label: 'APIs', lit: 0, pinged: false },
 ];
 
 export default function Radar() {
@@ -37,6 +39,24 @@ export default function Radar() {
     const sin45 = Math.sin(Math.PI / 4);
     let sweep = 0;
     let raf = 0;
+    let visible = false;
+
+    // Start/stop scanning sounds based on whether the radar is on screen.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !visible) {
+            visible = true;
+            startRadarAmbient();
+          } else if (!entry.isIntersecting && visible) {
+            visible = false;
+            stopRadarAmbient();
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(canvas);
 
     const draw = () => {
       ctx.clearRect(0, 0, size, size);
@@ -97,8 +117,15 @@ export default function Radar() {
         const by = cy + Math.sin(blip.angle) * blip.radius * maxR;
 
         // Distance (angular) between sweep and blip
-        let diff = Math.abs(((sweep - blip.angle + Math.PI) % (Math.PI * 2)) - Math.PI);
-        if (diff < 0.04) blip.lit = 1;
+        const diff = Math.abs(((sweep - blip.angle + Math.PI) % (Math.PI * 2)) - Math.PI);
+        if (diff < 0.04) {
+          blip.lit = 1;
+          if (!blip.pinged && visible) {
+            playRadarPing();
+            blip.pinged = true;
+          }
+        }
+        if (diff > 0.5) blip.pinged = false; // re-arm once sweep moves away
         blip.lit *= 0.99; // fade out slowly
 
         if (blip.lit > 0.02) {
@@ -137,7 +164,11 @@ export default function Radar() {
 
     draw();
 
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      observer.disconnect();
+      stopRadarAmbient();
+    };
   }, []);
 
   return (
