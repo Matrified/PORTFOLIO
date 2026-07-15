@@ -98,8 +98,8 @@ export default function Radar() {
 
         // Distance (angular) between sweep and blip
         let diff = Math.abs(((sweep - blip.angle + Math.PI) % (Math.PI * 2)) - Math.PI);
-        if (diff < 0.08) blip.lit = 1;
-        blip.lit *= 0.965; // fade out
+        if (diff < 0.04) blip.lit = 1;
+        blip.lit *= 0.99; // fade out slowly
 
         if (blip.lit > 0.02) {
           const glow = ctx.createRadialGradient(bx, by, 0, bx, by, 16 * blip.lit);
@@ -129,7 +129,7 @@ export default function Radar() {
       ctx.fill();
 
       if (!reduce) {
-        sweep += 0.03;
+        sweep += 0.007;
         if (sweep > Math.PI * 2) sweep -= Math.PI * 2;
         raf = requestAnimationFrame(draw);
       }
