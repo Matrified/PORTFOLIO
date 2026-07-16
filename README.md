@@ -1,5 +1,8 @@
 # Hadi Abdulla — Portfolio
 
+<img width="2553" height="1303" alt="Screenshot 2026-07-17 002850" src="https://github.com/user-attachments/assets/2c0fb88f-498e-4f4f-a5bc-0571ceb26601" />
+
+
 A personal developer portfolio with a terminal / cyber aesthetic — matrix rain,
 a scanning radar, decrypting section headings, mouse-tracking 3D project cards,
 a `Ctrl + K` command palette, and procedural UI sounds.
