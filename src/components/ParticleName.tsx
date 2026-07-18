@@ -48,12 +48,20 @@ export default function ParticleName({
       canvas.style.height = `${h}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      // Draw text to sample pixels
-      let fontSize = Math.min(w / (text.length * 0.62), h * 0.82);
-      ctx.clearRect(0, 0, w, h);
-      ctx.font = `${fontWeight} ${fontSize}px 'Space Grotesk', Verdana, sans-serif`;
+      // Draw text to sample pixels — start big, then shrink to fit within padding
+      const padX = w * 0.06;
+      const maxW = w - padX * 2;
+      let fontSize = Math.min(h * 0.72, maxW / (text.length * 0.5));
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
+      // Fit loop: ensure the rendered text width stays inside maxW
+      for (let guard = 0; guard < 24; guard++) {
+        ctx.font = `${fontWeight} ${fontSize}px 'Space Grotesk', Verdana, sans-serif`;
+        if (ctx.measureText(text).width <= maxW || fontSize <= 24) break;
+        fontSize -= 4;
+      }
+      ctx.clearRect(0, 0, w, h);
+      ctx.font = `${fontWeight} ${fontSize}px 'Space Grotesk', Verdana, sans-serif`;
       const grad = ctx.createLinearGradient(0, 0, w, h);
       colors.forEach((c, i) => grad.addColorStop(i / (colors.length - 1), `#${c}`));
       ctx.fillStyle = grad;

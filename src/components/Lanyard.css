@@ -1,0 +1,10 @@
+.lanyard3d-wrapper {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+}
+.lanyard3d-wrapper:active { cursor: grabbing; }
