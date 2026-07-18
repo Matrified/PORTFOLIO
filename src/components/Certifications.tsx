@@ -9,7 +9,7 @@ interface Cert {
   title: string;
   issuer: string;
   date: string;
-  url?: string;
+  image: string;
   logo: React.ReactNode;
   accent: string;
 }
@@ -19,6 +19,7 @@ const certs: Cert[] = [
     title: 'AWS Cloud Practitioner Essentials',
     issuer: 'Amazon Web Services',
     date: 'July 2026',
+    image: '/certs/aws.png',
     logo: <FaAws className="w-6 h-6" />,
     accent: 'border-yellow-500/30 text-yellow-400',
   },
@@ -26,6 +27,7 @@ const certs: Cert[] = [
     title: 'Advanced SWE Job Simulation',
     issuer: 'Walmart',
     date: 'June 2026',
+    image: '/certs/walmart.png',
     logo: <Award className="w-6 h-6" />,
     accent: 'border-blue-500/30 text-blue-400',
   },
@@ -33,6 +35,7 @@ const certs: Cert[] = [
     title: 'SWE Job Simulation',
     issuer: 'JPMorgan Chase & Co.',
     date: 'June 2026',
+    image: '/certs/jpmorgan.png',
     logo: <Shield className="w-6 h-6" />,
     accent: 'border-sky-500/30 text-sky-400',
   },
@@ -40,6 +43,7 @@ const certs: Cert[] = [
     title: 'SWE Job Simulation',
     issuer: 'HPE',
     date: 'June 2026',
+    image: '/certs/hpe.png',
     logo: <Award className="w-6 h-6" />,
     accent: 'border-green-500/30 text-green-400',
   },
@@ -47,6 +51,7 @@ const certs: Cert[] = [
     title: 'Google AI Essentials',
     issuer: 'Google',
     date: 'June 2026',
+    image: '/certs/google-ai.png',
     logo: <SiGoogle className="w-6 h-6" />,
     accent: 'border-cyber-cyan/30 text-cyber-cyan',
   },
@@ -54,6 +59,7 @@ const certs: Cert[] = [
     title: 'GitHub Foundations',
     issuer: 'GitHub',
     date: 'June 2026',
+    image: '/certs/github-foundations.png',
     logo: <SiGithub className="w-6 h-6" />,
     accent: 'border-matrix/30 text-matrix',
   },
@@ -81,25 +87,39 @@ export default function Certifications() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {certs.map((cert, i) => (
-            <motion.div
+            <motion.a
               key={cert.title + cert.issuer}
+              href={cert.image}
+              target="_blank"
+              rel="noopener noreferrer"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: i * 0.1, duration: 0.5 }}
-              className={`glass-card rounded-xl p-5 border ${cert.accent.split(' ')[0]} hover:scale-[1.02] transition-transform`}
+              className={`cursor-target group glass-card block rounded-xl border ${cert.accent.split(' ')[0]} overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.03] hover:shadow-[0_18px_40px_rgba(0,0,0,0.5)]`}
             >
-              <div className="flex items-start justify-between mb-3">
-                <div className={cert.accent.split(' ')[1]}>{cert.logo}</div>
-                {cert.url && (
-                  <a href={cert.url} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white transition-colors">
-                    <ExternalLink className="w-4 h-4" />
-                  </a>
-                )}
+              {/* Certificate image */}
+              <div className="relative overflow-hidden border-b border-dark-border bg-white/[0.02]">
+                <img
+                  src={cert.image}
+                  alt={`${cert.title} certificate`}
+                  loading="lazy"
+                  className="h-40 w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-dark-card/80 to-transparent opacity-60" />
+                <div className="absolute right-2 top-2 rounded-md bg-black/60 p-1.5 opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
+                  <ExternalLink className="h-3.5 w-3.5 text-white" />
+                </div>
               </div>
-              <h3 className="text-white font-semibold text-sm leading-snug">{cert.title}</h3>
-              <p className="text-gray-400 text-xs mt-1.5">{cert.issuer}</p>
-              <p className="text-gray-600 text-xs font-mono mt-2">{cert.date}</p>
-            </motion.div>
+              {/* Details */}
+              <div className="p-5">
+                <div className="mb-3 flex items-start justify-between">
+                  <div className={cert.accent.split(' ')[1]}>{cert.logo}</div>
+                </div>
+                <h3 className="text-sm font-semibold leading-snug text-white">{cert.title}</h3>
+                <p className="mt-1.5 text-xs text-gray-400">{cert.issuer}</p>
+                <p className="mt-2 font-mono text-xs text-gray-600">{cert.date}</p>
+              </div>
+            </motion.a>
           ))}
         </div>
       </div>
