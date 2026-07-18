@@ -153,7 +153,6 @@ export default function NetflixProjects() {
                 color={project.folderColor}
                 icon={project.icon}
                 onOpen={() => setSelectedProject(project)}
-                papers={project.tech.slice(0, 3).map((t) => <span key={t}>{t}</span>)}
               />
             </motion.div>
           ))}

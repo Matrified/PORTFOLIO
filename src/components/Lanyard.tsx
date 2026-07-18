@@ -37,17 +37,18 @@ function makeBandTexture() {
   return tex;
 }
 
-function Band({ frontImage, maxSpeed = 50, minSpeed = 0 }) {
+function Band({ frontImage, backImage, maxSpeed = 50, minSpeed = 0 }) {
   const band = useRef(), fixed = useRef(), j1 = useRef(), j2 = useRef(), j3 = useRef(), card = useRef();
   const vec = new THREE.Vector3(), ang = new THREE.Vector3(), rot = new THREE.Vector3(), dir = new THREE.Vector3();
   const segmentProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 };
   const { nodes, materials } = useGLTF(cardGLB);
   const bandTexture = useMemo(() => makeBandTexture(), []);
   const frontTex = useTexture(frontImage || BLANK_PIXEL);
+  const backTex = useTexture(backImage || frontImage || BLANK_PIXEL);
 
   const cardMap = useMemo(() => {
     const baseMap = materials.base.map;
-    if (!frontImage || !baseMap?.image) return baseMap;
+    if ((!frontImage && !backImage) || !baseMap?.image) return baseMap;
     const baseImg = baseMap.image;
     const W = baseImg.width, H = baseImg.height;
     const canvas = document.createElement('canvas');
@@ -63,14 +64,15 @@ function Band({ frontImage, maxSpeed = 50, minSpeed = 0 }) {
       ctx.save(); ctx.beginPath(); ctx.rect(rx, ry, rw, rh); ctx.clip();
       ctx.drawImage(img, dx, dy, dw, dh); ctx.restore();
     };
-    if (frontTex.image) { drawFitted(frontTex.image, FRONT_UV_RECT); drawFitted(frontTex.image, BACK_UV_RECT); }
+    if (frontTex.image) drawFitted(frontTex.image, FRONT_UV_RECT);
+    if (backTex.image) drawFitted(backTex.image, BACK_UV_RECT);
     const composite = new THREE.CanvasTexture(canvas);
     composite.colorSpace = THREE.SRGBColorSpace;
     composite.flipY = baseMap.flipY;
     composite.anisotropy = 16;
     composite.needsUpdate = true;
     return composite;
-  }, [frontImage, frontTex, materials.base.map]);
+  }, [frontImage, backImage, frontTex, backTex, materials.base.map]);
 
   const [curve] = useState(() => new THREE.CatmullRomCurve3([new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()]));
   const [dragged, drag] = useState(false);
@@ -125,7 +127,7 @@ function Band({ frontImage, maxSpeed = 50, minSpeed = 0 }) {
         <RigidBody position={[2, 0, 0]} ref={card} {...segmentProps} type={dragged ? 'kinematicPosition' : 'dynamic'}>
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
-            scale={2.25}
+            scale={3.0}
             position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
@@ -148,13 +150,13 @@ function Band({ frontImage, maxSpeed = 50, minSpeed = 0 }) {
   );
 }
 
-export default function Lanyard({ position = [0, 0, 18], gravity = [0, -40, 0], fov = 20, frontImage = '/images/hadi-nobg.png' }) {
+export default function Lanyard({ position = [0, 0, 14], gravity = [0, -40, 0], fov = 22, frontImage = '/images/lanyard-front.png', backImage = '/images/lanyard-back.png' }) {
   return (
     <div className="lanyard3d-wrapper">
       <Canvas camera={{ position, fov }} dpr={[1, 2]} gl={{ alpha: true }} onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), 0)}>
         <ambientLight intensity={Math.PI} />
         <Physics gravity={gravity} timeStep={1 / 60}>
-          <Band frontImage={frontImage} />
+          <Band frontImage={frontImage} backImage={backImage} />
         </Physics>
         <Environment blur={0.75}>
           <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />

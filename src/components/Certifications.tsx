@@ -5,7 +5,9 @@ import { SiGithub, SiGoogle } from 'react-icons/si';
 import { FaAws } from 'react-icons/fa';
 import DecryptText from './DecryptText';
 import CircularGallery from './CircularGallery';
-import GridScanBg from './GridScanBg';
+import { useState, lazy, Suspense } from 'react';
+
+const GridScan = lazy(() => import('./GridScan'));
 
 interface Cert {
   title: string;
@@ -71,11 +73,13 @@ const galleryItems = certs.map((c) => ({ image: c.image, text: c.issuer }));
 
 export default function Certifications() {
   const { ref, isInView } = useInView(0.1);
+  const [focused, setFocused] = useState(0);
+  const active = certs[focused] ?? certs[0];
 
   return (
     <section id="certifications" className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" ref={ref}>
-      {/* Static perspective grid-scan backdrop */}
-      <div className="pointer-events-none absolute inset-0 z-0 opacity-70"><GridScanBg color="0,255,65" /></div>
+      {/* Perspective grid-scan backdrop (slightly reacts to cursor) */}
+      <div className="absolute inset-0 z-0 opacity-60">{isInView && <Suspense fallback={null}><GridScan /></Suspense>}</div>
       <div className="relative z-10 max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -94,8 +98,17 @@ export default function Certifications() {
       </div>
 
       {/* Movable circular gallery — full viewport width, click a certificate to open it */}
-      <div className="relative z-10 left-1/2 right-1/2 -mx-[50vw] h-[440px] w-screen">
-        <CircularGallery items={galleryItems} bend={2.5} borderRadius={0.06} scrollEase={0.04} />
+      <div className="relative z-10 left-1/2 right-1/2 -mx-[50vw] h-[520px] w-screen">
+        <CircularGallery items={galleryItems} bend={2.5} borderRadius={0.06} scrollEase={0.04} onFocusChange={setFocused} />
+      </div>
+
+      {/* Caption for the focused certificate */}
+      <div className="relative z-10 mt-4 flex items-center justify-center">
+        <div key={focused} className={`fade-in-caption inline-flex items-center gap-3 rounded-full border ${active.accent.split(' ')[0]} bg-dark-card/70 px-5 py-2.5 backdrop-blur`}>
+          <span className={active.accent.split(' ')[1]}>{active.logo}</span>
+          <span className="font-display text-sm font-semibold text-white">{active.title}</span>
+          <span className="font-mono text-xs text-gray-500">· {active.issuer} · {active.date}</span>
+        </div>
       </div>
     </section>
   );

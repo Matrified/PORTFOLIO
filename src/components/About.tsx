@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useInView } from './useInView';
-import { MapPin, GraduationCap, Code2, Layers3 } from 'lucide-react';
+import { MapPin, GraduationCap, Code2, Layers3, Boxes, Crown, Footprints } from 'lucide-react';
 import { Suspense, lazy } from 'react';
 import DecryptText from './DecryptText';
 import ErrorBoundary from './ErrorBoundary';
@@ -24,7 +24,7 @@ const facts = [
   { icon: <MapPin className="w-5 h-5" />, label: 'Based In', value: 'Cyberjaya, Malaysia', color: 'text-matrix' },
   { icon: <GraduationCap className="w-5 h-5" />, label: 'University', value: 'MMU Cyberjaya', color: 'text-cyber-cyan' },
   { icon: <Code2 className="w-5 h-5" />, label: 'Focus', value: 'Software Engineering', color: 'text-cyber-purple' },
-  { icon: <Layers3 className="w-5 h-5" />, label: 'Interests', value: 'Game Dev & Open Source', color: 'text-yellow-400' },
+  { icon: <Layers3 className="w-5 h-5" />, label: 'Currently', value: 'Seeking Internship', color: 'text-yellow-400' },
 ];
 
 export default function About() {
@@ -100,10 +100,10 @@ export default function About() {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             {/* Interactive 3D lanyard ID badge (drag it!) — resilient with a static fallback */}
-            <div className="mb-4 h-[420px]">
+            <div className="mb-4 h-[560px]">
               <ErrorBoundary fallback={<PhotoFallback />}>
                 <Suspense fallback={<div className="flex h-full items-center justify-center font-mono text-xs text-gray-600">loading badge...</div>}>
-                  {isInView && <Lanyard frontImage="/images/hadi-nobg.png" />}
+                  {isInView && <Lanyard />}
                 </Suspense>
               </ErrorBoundary>
             </div>
@@ -127,6 +127,25 @@ export default function About() {
                   <div className="text-sm text-white font-medium mt-1">{fact.value}</div>
                 </motion.div>
               ))}
+            </div>
+
+            {/* Interests */}
+            <h3 className="font-mono text-sm text-gray-500 mb-4 mt-8">
+              <span className="text-matrix">#</span> interests
+            </h3>
+            <div className="flex flex-wrap gap-3">
+              <span className="interest-chip">
+                <Boxes className="h-4 w-4 text-white" />
+                <span className="rubiks-text font-bold">Rubik's Cube</span>
+              </span>
+              <span className="interest-chip">
+                <Crown className="h-4 w-4 text-gray-200" />
+                <span className="chess-text font-bold">Chess</span>
+              </span>
+              <span className="interest-chip">
+                <Footprints className="h-4 w-4 text-cyber-cyan" />
+                <span className="font-semibold text-cyber-cyan">Running</span>
+              </span>
             </div>
           </motion.div>
         </div>

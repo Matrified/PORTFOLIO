@@ -115,11 +115,11 @@ class Media {
     if (screen) this.screen = screen;
     if (viewport) this.viewport = viewport;
     this.scale = this.screen.height / 1500;
-    // Landscape cards (wider than tall) to match certificate aspect ratio
-    this.plane.scale.y = (this.viewport.height * (720 * this.scale)) / this.screen.height;
-    this.plane.scale.x = (this.viewport.width * (1120 * this.scale)) / this.screen.width;
+    // Landscape cards sized so roughly 3 fit fully with 2 halves at the edges
+    this.plane.scale.y = (this.viewport.height * (620 * this.scale)) / this.screen.height;
+    this.plane.scale.x = (this.viewport.width * (900 * this.scale)) / this.screen.width;
     this.plane.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y];
-    this.padding = 2;
+    this.padding = 1.4;
     this.width = this.plane.scale.x + this.padding;
     this.widthTotal = this.width * this.length;
     this.x = this.width * this.index;
@@ -214,12 +214,21 @@ class App {
   }
 }
 
-export default function CircularGallery({ items, bend = 2.5, textColor = '#e5e7eb', borderRadius = 0.05, font = 'bold 26px Space Grotesk', scrollSpeed = 2, scrollEase = 0.05 }) {
+export default function CircularGallery({ items, bend = 2.5, textColor = '#e5e7eb', borderRadius = 0.05, font = 'bold 26px Space Grotesk', scrollSpeed = 2, scrollEase = 0.05, onFocusChange }) {
   const containerRef = useRef(null);
+  const focusRef = useRef(onFocusChange);
+  focusRef.current = onFocusChange;
   useEffect(() => {
     if (!containerRef.current) return;
     const app = new App(containerRef.current, { items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase });
-    return () => app.destroy();
+    let last = -1;
+    const poll = setInterval(() => {
+      if (!app.medias || !app.medias[0]) return;
+      const width = app.medias[0].width;
+      const idx = ((Math.round(app.scroll.current / width) % items.length) + items.length) % items.length;
+      if (idx !== last) { last = idx; focusRef.current?.(idx); }
+    }, 120);
+    return () => { clearInterval(poll); app.destroy(); };
   }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase]);
   return <div className="h-full w-full cursor-grab active:cursor-grabbing" ref={containerRef} />;
 }

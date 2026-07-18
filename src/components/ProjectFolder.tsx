@@ -1,20 +1,19 @@
 import { useRef, type ReactNode } from 'react';
+import { FolderGit2 } from 'lucide-react';
 import './ProjectFolder.css';
 
 interface ProjectFolderProps {
   title: string;
   color: string;
   icon: ReactNode;
-  papers: ReactNode[];  // tech tags
   year: string;
   onOpen: () => void;
 }
 
 // A folder-SHAPED card (tab + body) with the project logo clearly on the front.
 // Pops toward the screen and tilts in 3D toward the cursor on hover.
-export default function ProjectFolder({ title, color, icon, papers, year, onOpen }: ProjectFolderProps) {
+export default function ProjectFolder({ title, color, icon, year, onOpen }: ProjectFolderProps) {
   const stageRef = useRef<HTMLDivElement>(null);
-  const tags = papers.slice(0, 3);
 
   const handleMove = (e: React.MouseEvent) => {
     const el = stageRef.current;
@@ -43,16 +42,12 @@ export default function ProjectFolder({ title, color, icon, papers, year, onOpen
         tabIndex={0}
         aria-label={`Open ${title}`}
       >
-        <span className="folder-card__tab" />
+        <span className="folder-card__tab"><FolderGit2 className="h-3.5 w-3.5" /></span>
         <div className="folder-card__body">
           <div className="folder-card__logo">{icon}</div>
           <h3 className="folder-card__title">{title}</h3>
           <span className="folder-card__year">{year}</span>
-          <div className="folder-card__tags">
-            {tags.map((t, i) => (
-              <span key={i} className="folder-card__tag">{t}</span>
-            ))}
-          </div>
+          <span className="folder-card__open">open project &rarr;</span>
         </div>
       </div>
     </div>

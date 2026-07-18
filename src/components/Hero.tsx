@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, ChevronDown, Download } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
 import MatrixRain from './MatrixRain';
 import ParticleName from './ParticleName';
 import LightRays from './LightRays';
+
+const PixelTrail = lazy(() => import('./PixelTrail'));
 
 const roles = ['Software Engineer', 'Full-Stack Developer', 'Backend Builder', 'Systems Thinker'];
 
@@ -28,10 +30,13 @@ export default function Hero() {
     <section id="home" className="relative min-h-screen overflow-hidden px-4 sm:px-6 lg:px-8">
       {/* Falling code */}
       <MatrixRain />
-      {/* Light rays beaming down from the top */}
-      <div className="pointer-events-none absolute inset-0 z-[1] opacity-80"><LightRays raysOrigin="top-center" raysColor="#00ff41" raysSpeed={1.2} lightSpread={0.9} followMouse mouseInfluence={0.12} /></div>
+      {/* Static light rays: top-center + a side beam */}
+      <div className="pointer-events-none absolute inset-0 z-[1] opacity-80"><LightRays raysOrigin="top-center" raysColor="#00ff41" raysSpeed={1.0} lightSpread={0.9} followMouse={false} /></div>
+      <div className="pointer-events-none absolute inset-0 z-[1] opacity-50"><LightRays raysOrigin="top-right" raysColor="#00d4ff" raysSpeed={0.8} lightSpread={1.1} followMouse={false} /></div>
+      {/* Interactive pixel trail that follows the cursor */}
+      <div className="absolute inset-0 z-[3]"><Suspense fallback={null}><PixelTrail gridSize={70} color="#00ff41" /></Suspense></div>
       {/* Terminal screen treatment: scanlines + phosphor glow + curvature vignette */}
-      <div className="hero-crt absolute inset-0 z-[2]" />
+      <div className="hero-crt absolute inset-0 z-[2] pointer-events-none" />
       <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_50%_40%,rgba(0,255,65,0.10),transparent_32%),radial-gradient(circle_at_76%_35%,rgba(0,212,255,0.07),transparent_26%),linear-gradient(to_bottom,rgba(5,5,5,.25),#050505_92%)]" />
       <div className="cyber-grid absolute inset-0 z-[1] opacity-25 [mask-image:linear-gradient(to_bottom,black,transparent_90%)]" />
 
@@ -43,7 +48,7 @@ export default function Hero() {
         </motion.div>
 
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.65 }} className="mt-6 flex min-h-8 items-center justify-center font-mono text-lg sm:text-2xl">
-          <span className="mr-3 text-matrix">&gt;</span><span className="text-gray-200">{displayText}</span><span className="ml-1 h-6 w-[2px] animate-pulse bg-matrix" />
+          <span className="mr-2 text-gray-500">hadi@portfolio</span><span className="mr-2 text-matrix">:~$</span><span className="text-gray-200">{displayText}</span><span className="ml-1 h-6 w-[2px] animate-pulse bg-matrix" />
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1 }} className="mt-10 flex flex-wrap justify-center gap-3">

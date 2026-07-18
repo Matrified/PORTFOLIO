@@ -359,3 +359,39 @@ body {
 }
 @keyframes magicSpin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .magic-edge::after { animation: none; } }
+
+/* ---------- Interests chips ---------- */
+.interest-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--color-dark-border);
+  background: rgba(13, 13, 13, 0.7);
+  font-size: 14px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.interest-chip:hover { transform: translateY(-2px); border-color: rgba(0, 255, 65, 0.4); }
+
+/* Rubik's cube — multi-colored letters */
+.rubiks-text {
+  background: linear-gradient(90deg, #ff3b30 0 20%, #ff9500 20% 40%, #ffcc00 40% 55%, #34c759 55% 72%, #0a84ff 72% 88%, #ffffff 88% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.5px;
+}
+
+/* Chess — black & white checker text */
+.chess-text {
+  background: repeating-linear-gradient(45deg, #ffffff 0 6px, #7a7a7a 6px 12px);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.chess-text + *, .interest-chip .lucide-crown { color: #e5e7eb; }
+
+/* ---------- Certificate caption ---------- */
+.fade-in-caption { animation: captionFade 0.35s ease; }
+@keyframes captionFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
