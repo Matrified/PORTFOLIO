@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, ChevronDown, Download, GraduationCap, MapPin } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
-import FaultyTerminal from './FaultyTerminal';
+import MatrixRain from './MatrixRain';
+import ParticleName from './ParticleName';
 
 const roles = ['Software Engineer', 'Full-Stack Developer', 'Backend Builder', 'Systems Thinker'];
 
@@ -24,20 +25,10 @@ export default function Hero() {
 
   return (
     <section id="home" className="relative min-h-screen overflow-hidden px-4 sm:px-6 lg:px-8">
-      <div className="absolute inset-0 z-0 opacity-70">
-        <FaultyTerminal
-          scale={1.6}
-          digitSize={1.3}
-          timeScale={0.4}
-          scanlineIntensity={0.7}
-          glitchAmount={1}
-          flickerAmount={0.8}
-          curvature={0.12}
-          tint="#00ff41"
-          mouseReact
-          brightness={0.75}
-        />
-      </div>
+      {/* Falling code */}
+      <MatrixRain />
+      {/* Terminal screen treatment: scanlines + phosphor glow + curvature vignette */}
+      <div className="hero-crt absolute inset-0 z-[2]" />
       <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_50%_40%,rgba(0,255,65,0.10),transparent_32%),radial-gradient(circle_at_76%_35%,rgba(0,212,255,0.07),transparent_26%),linear-gradient(to_bottom,rgba(5,5,5,.25),#050505_92%)]" />
       <div className="cyber-grid absolute inset-0 z-[1] opacity-25 [mask-image:linear-gradient(to_bottom,black,transparent_90%)]" />
 
@@ -46,11 +37,10 @@ export default function Hero() {
           SOFTWARE ENGINEERING · FULL-STACK SYSTEMS
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.75 }} className="mt-7">
-          <p className="mb-3 font-mono text-xs tracking-[0.28em] text-gray-600">HELLO, WORLD. I AM</p>
-          <h1 className="font-display text-6xl font-black leading-[0.88] tracking-[-0.065em] text-white sm:text-8xl lg:text-[8.5rem]">
-            HADI <span className="hero-gradient">ABDULLA</span>
-          </h1>
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.75 }} className="mt-7 w-full">
+          <p className="mb-2 font-mono text-xs tracking-[0.28em] text-gray-600">HELLO, WORLD. I AM</p>
+          <ParticleName text="HADI ABDULLA" height={180} className="mx-auto max-w-4xl" />
+          <h1 className="sr-only">Hadi Abdulla</h1>
         </motion.div>
 
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.65 }} className="mt-8 flex min-h-8 items-center justify-center font-mono text-lg sm:text-xl">

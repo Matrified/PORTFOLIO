@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useInView } from './useInView';
 import { Mail, MapPin, Send, ArrowUpRight } from 'lucide-react';
 import Radar from './Radar';
+import LaserFlow from './LaserFlow';
 
 const socialLinks = [
   {
@@ -45,8 +46,12 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative py-24 px-4 sm:px-6 lg:px-8" ref={ref}>
+    <section id="contact" className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" ref={ref}>
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-matrix/3 rounded-full blur-[200px]" />
+      {/* Laser beam flowing up from the bottom */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[420px] opacity-80">
+        <LaserFlow color="#00ff41" horizontalBeamOffset={0.0} verticalBeamOffset={0.35} flowSpeed={0.35} />
+      </div>
 
       <div className="max-w-5xl mx-auto relative">
         {/* Section header */}

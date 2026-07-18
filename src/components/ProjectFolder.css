@@ -1,16 +1,33 @@
+.folder-stage {
+  --rx: 0deg;
+  --ry: 0deg;
+  perspective: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 0 1.5rem;
+}
+
 .project-folder {
   --folder-color: #00ff41;
   --folder-back: #00cc33;
   cursor: pointer;
-  transition: transform 0.25s ease;
-  transform: scale(1.7);
-  margin: 2.2rem 0;
+  transform-style: preserve-3d;
+  transform: scale(1.55) rotateX(0deg) rotateY(0deg) translateZ(0);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), filter 0.28s ease;
   outline: none;
+  will-change: transform;
+}
+
+/* Pop toward the screen + tilt toward cursor on hover */
+.folder-stage:hover .project-folder {
+  transform: scale(1.9) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(60px);
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 24px rgba(0, 255, 65, 0.25));
 }
 
 .project-folder:focus-visible {
   outline: 2px solid #00ff41;
-  outline-offset: 10px;
+  outline-offset: 12px;
   border-radius: 6px;
 }
 
@@ -20,7 +37,8 @@
   height: 80px;
   background: var(--folder-back);
   border-radius: 0 10px 10px 10px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.5);
+  transform-style: preserve-3d;
 }
 
 .project-folder__back::after {
@@ -53,13 +71,18 @@
   font-size: 6px;
   color: #00ff41;
   text-align: center;
-  padding: 4px;
-  transition: all 0.3s ease-in-out;
+  padding: 3px;
   overflow: hidden;
+  transition: transform 0.3s ease;
 }
 
 .project-paper-2 { width: 80%; height: 70%; background: #111; }
 .project-paper-3 { width: 90%; height: 60%; background: #151515; }
+
+/* Papers peek up slightly when popped */
+.folder-stage:hover .project-paper-1 { transform: translate(-50%, -6%); }
+.folder-stage:hover .project-paper-2 { transform: translate(-50%, -3%); }
+.folder-stage:hover .project-paper-3 { transform: translate(-50%, 0%); }
 
 .project-folder__front {
   position: absolute;
@@ -69,34 +92,19 @@
   background: linear-gradient(135deg, var(--folder-color), var(--folder-back));
   border-radius: 5px 10px 10px 10px;
   transform-origin: bottom;
-  transition: all 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.project-folder__logo {
-  color: rgba(255, 255, 255, 0.92);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+.folder-stage:hover .project-folder__front { transform: skew(6deg) scaleY(0.92); }
+.folder-stage:hover .project-folder__front.right { transform: skew(-6deg) scaleY(0.92); }
 
+.project-folder__logo { color: rgba(255, 255, 255, 0.95); display: flex; }
 .project-folder__logo :where(svg) { width: 34px; height: 34px; }
 
-.project-folder__front.right {
-  background: linear-gradient(135deg, var(--folder-back), var(--folder-color));
-}
-
-/* Hover / open state — lift and fan the papers out */
-.project-folder.open { transform: scale(1.7) translateY(-8px); }
-
-.project-folder.open .project-folder__front { transform: skew(15deg) scaleY(0.6); }
-.project-folder.open .project-folder__front.right { transform: skew(-15deg) scaleY(0.6); }
-
-.project-folder.open .project-paper-1 { transform: translate(-120%, -70%) rotateZ(-15deg); }
-.project-folder.open .project-paper-2 { transform: translate(10%, -70%) rotateZ(15deg); }
-.project-folder.open .project-paper-3 { transform: translate(-50%, -100%) rotateZ(5deg); }
+.project-folder__front.right { background: linear-gradient(135deg, var(--folder-back), var(--folder-color)); }
 
 @media (prefers-reduced-motion: reduce) {
   .project-folder, .project-folder__front, .project-paper { transition: none; }

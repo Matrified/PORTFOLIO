@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useInView } from './useInView';
 import { MapPin, GraduationCap, Code2, Layers3 } from 'lucide-react';
 import DecryptText from './DecryptText';
+import LanyardCard from './LanyardCard';
 
 const facts = [
   { icon: <MapPin className="w-5 h-5" />, label: 'Based In', value: 'Cyberjaya, Malaysia', color: 'text-matrix' },
@@ -82,27 +83,9 @@ export default function About() {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            {/* Headshot with cyber frame */}
-            <div className="mb-6 flex justify-center">
-              <div className="group relative">
-                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-matrix/40 via-cyber-cyan/20 to-cyber-purple/40 opacity-60 blur-md transition-opacity duration-500 group-hover:opacity-100" />
-                <div className="relative overflow-hidden rounded-2xl border border-matrix/30 bg-dark-card">
-                  <img
-                    src="/images/hadi.png"
-                    alt="Hadi Abdulla"
-                    className="h-56 w-56 object-cover grayscale transition-all duration-500 group-hover:grayscale-0 sm:h-64 sm:w-64"
-                    loading="lazy"
-                  />
-                  {/* scan sheen */}
-                  <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-matrix/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                  <div className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(to_bottom,transparent_0,transparent_3px,rgba(0,0,0,0.12)_4px)] mix-blend-multiply" />
-                  <span className="hud-corner hud-corner-tl" /><span className="hud-corner hud-corner-tr" />
-                  <span className="hud-corner hud-corner-bl" /><span className="hud-corner hud-corner-br" />
-                </div>
-                <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full border border-matrix/30 bg-dark-bg px-3 py-1 font-mono text-[10px] text-matrix">
-                  &#9679; ONLINE
-                </span>
-              </div>
+            {/* Swinging lanyard ID badge */}
+            <div className="mb-8 flex justify-center">
+              <LanyardCard />
             </div>
 
             <h3 className="font-mono text-sm text-gray-500 mb-4">
