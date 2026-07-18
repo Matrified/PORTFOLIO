@@ -15,7 +15,14 @@ import LogoMarquee from './LogoMarquee';
 const skillCategories = [
   {
     title: 'Languages',
-    icon: <Code2 className="w-5 h-5 text-matrix" />,
+    icon: <Code2 className="w-5 h-5" />,
+    accent: {
+      icon: 'text-matrix',
+      title: 'text-matrix',
+      cardBorder: 'hover:border-matrix/50',
+      cardGlow: 'hover:shadow-[0_0_35px_rgba(0,255,65,0.10)]',
+      chip: 'border-matrix/25 text-matrix hover:border-matrix/60 hover:bg-matrix/10',
+    },
     skills: [
       { name: 'Python', Icon: SiPython },
       { name: 'Java', Icon: FaJava },
@@ -27,7 +34,14 @@ const skillCategories = [
   },
   {
     title: 'Frameworks & Frontend',
-    icon: <Server className="w-5 h-5 text-cyber-cyan" />,
+    icon: <Server className="w-5 h-5" />,
+    accent: {
+      icon: 'text-cyber-cyan',
+      title: 'text-cyber-cyan',
+      cardBorder: 'hover:border-cyber-cyan/50',
+      cardGlow: 'hover:shadow-[0_0_35px_rgba(0,212,255,0.10)]',
+      chip: 'border-cyber-cyan/25 text-cyber-cyan hover:border-cyber-cyan/60 hover:bg-cyber-cyan/10',
+    },
     skills: [
       { name: 'React', Icon: SiReact },
       { name: 'Next.js', Icon: SiNextdotjs },
@@ -38,7 +52,14 @@ const skillCategories = [
   },
   {
     title: 'Data & APIs',
-    icon: <Database className="w-5 h-5 text-cyber-purple" />,
+    icon: <Database className="w-5 h-5" />,
+    accent: {
+      icon: 'text-cyber-purple',
+      title: 'text-cyber-purple',
+      cardBorder: 'hover:border-cyber-purple/50',
+      cardGlow: 'hover:shadow-[0_0_35px_rgba(177,74,237,0.12)]',
+      chip: 'border-cyber-purple/30 text-cyber-purple hover:border-cyber-purple/60 hover:bg-cyber-purple/10',
+    },
     skills: [
       { name: 'PostgreSQL', Icon: SiPostgresql },
       { name: 'SQLite', Icon: SiSqlite },
@@ -52,7 +73,14 @@ const skillCategories = [
   },
   {
     title: 'Tools & Platforms',
-    icon: <Wrench className="w-5 h-5 text-yellow-400" />,
+    icon: <Wrench className="w-5 h-5" />,
+    accent: {
+      icon: 'text-yellow-400',
+      title: 'text-yellow-400',
+      cardBorder: 'hover:border-yellow-400/50',
+      cardGlow: 'hover:shadow-[0_0_35px_rgba(250,204,21,0.10)]',
+      chip: 'border-yellow-400/25 text-yellow-300 hover:border-yellow-400/60 hover:bg-yellow-400/10',
+    },
     skills: [
       { name: 'Git', Icon: SiGit },
       { name: 'Docker', Icon: SiDocker },
@@ -97,11 +125,11 @@ export default function Skills() {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: catIndex * 0.15 }}
-              className="glass-card spotlight-card rounded-2xl p-6 group hover:border-matrix/30 transition-all"
+              className={`glass-card spotlight-card rounded-2xl p-6 group border border-dark-border transition-all ${category.accent.cardBorder} ${category.accent.cardGlow}`}
             >
               <div className="flex items-center gap-3 mb-6">
-                {category.icon}
-                <h3 className="text-lg font-display font-semibold text-white">{category.title}</h3>
+                <span className={category.accent.icon}>{category.icon}</span>
+                <h3 className={`text-lg font-display font-semibold ${category.accent.title}`}>{category.title}</h3>
               </div>
 
               <div className="flex flex-wrap gap-3">
@@ -111,10 +139,10 @@ export default function Skills() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={isInView ? { opacity: 1, scale: 1 } : {}}
                     transition={{ delay: catIndex * 0.15 + skillIndex * 0.05 + 0.3 }}
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg bg-dark-surface border border-dark-border hover:border-matrix/40 transition-all"
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg bg-dark-surface border transition-all ${category.accent.chip}`}
                   >
-                    <skill.Icon className="w-4 h-4 text-matrix" />
-                    <span className="text-sm text-gray-300 font-medium">{skill.name}</span>
+                    <skill.Icon className="w-4 h-4" />
+                    <span className="text-sm font-medium">{skill.name}</span>
                   </motion.div>
                 ))}
               </div>

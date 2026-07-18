@@ -10,7 +10,7 @@ const facts = [
   { icon: <MapPin className="w-5 h-5" />, label: 'Based In', value: 'Cyberjaya, Malaysia', color: 'text-matrix' },
   { icon: <GraduationCap className="w-5 h-5" />, label: 'University', value: 'MMU Cyberjaya', color: 'text-cyber-cyan' },
   { icon: <Code2 className="w-5 h-5" />, label: 'Focus', value: 'Software Engineering', color: 'text-cyber-purple' },
-  { icon: <Layers3 className="w-5 h-5" />, label: 'Interests', value: 'Full-Stack & Backend', color: 'text-yellow-400' },
+  { icon: <Layers3 className="w-5 h-5" />, label: 'Interests', value: 'Game Dev & Open Source', color: 'text-yellow-400' },
 ];
 
 export default function About() {
@@ -111,16 +111,6 @@ export default function About() {
                   <div className="text-sm text-white font-medium mt-1">{fact.value}</div>
                 </motion.div>
               ))}
-            </div>
-
-            {/* Engineering principles */}
-            <div className="glass-card rounded-xl p-5 mt-3">
-              <p className="font-mono text-xs text-gray-500 mb-4"><span className="text-matrix">#</span> engineering_principles</p>
-              <div className="grid grid-cols-3 gap-3 text-center">
-                {['Clarity', 'Reliability', 'Craft'].map((item) => (
-                  <div key={item} className="rounded-lg border border-dark-border bg-dark-surface px-2 py-3 text-xs text-gray-300">{item}</div>
-                ))}
-              </div>
             </div>
           </motion.div>
         </div>
