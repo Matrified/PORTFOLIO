@@ -26,12 +26,7 @@ export default function CyberOverlay() {
         className="absolute left-0 top-0 h-[2px] bg-gradient-to-r from-matrix via-cyber-cyan to-cyber-purple shadow-[0_0_12px_#00ff41]"
         style={{ width: `${progress}%` }}
       />
-      {/* Static scanlines */}
-      <div className="crt-scanlines absolute inset-0" />
-      {/* Rolling bright scan band */}
-      <div className="crt-roll absolute inset-x-0 h-40" />
-      {/* Flicker + vignette (screen curvature) */}
-      <div className="crt-flicker absolute inset-0" />
+      {/* Soft vignette only (scanlines removed) */}
       <div className="crt-vignette absolute inset-0" />
 
       <span className="hud-corner hud-corner-tl" /><span className="hud-corner hud-corner-tr" />

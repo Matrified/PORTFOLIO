@@ -8,7 +8,7 @@ import Experience from './components/Experience';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
-import CursorGlow from './components/CursorGlow';
+import TargetCursor from './components/TargetCursor';
 import CyberOverlay from './components/CyberOverlay';
 import CommandDeck from './components/CommandDeck';
 import SectionDivider from './components/SectionDivider';
@@ -22,7 +22,7 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen bg-dark-bg text-white overflow-x-hidden">
-      <CursorGlow />
+      <TargetCursor targetSelector=".cursor-target" spinDuration={3} />
       <CyberOverlay />
       <CommandDeck />
       <Navbar />

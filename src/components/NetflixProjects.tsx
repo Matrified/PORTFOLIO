@@ -4,7 +4,7 @@ import { useInView } from './useInView';
 import { ExternalLink, Play, X, Route, Swords, MessageSquareText } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
 import DecryptText from './DecryptText';
-import TiltCard from './TiltCard';
+import ProjectFolder from './ProjectFolder';
 
 interface Project {
   id: number;
@@ -20,6 +20,7 @@ interface Project {
   maturity: string;
   year: string;
   gradient: string;
+  folderColor: string;
   icon: React.ReactNode;
 }
 
@@ -43,6 +44,7 @@ const projects: Project[] = [
     maturity: 'Personal Project',
     year: '2026',
     gradient: 'from-purple-700 to-indigo-600',
+    folderColor: '#7c5cff',
     icon: <Swords className="w-16 h-16" />,
   },
   {
@@ -64,6 +66,7 @@ const projects: Project[] = [
     maturity: 'Personal Project',
     year: '2026',
     gradient: 'from-emerald-600 to-teal-600',
+    folderColor: '#10b981',
     icon: <Route className="w-16 h-16" />,
   },
   {
@@ -84,6 +87,7 @@ const projects: Project[] = [
     maturity: 'Personal Project',
     year: '2026',
     gradient: 'from-green-600 to-emerald-500',
+    folderColor: '#00d4ff',
     icon: <MessageSquareText className="w-16 h-16" />,
   },
 ];
@@ -134,8 +138,8 @@ export default function NetflixProjects() {
           </div>
         </motion.div>
 
-        {/* Project Cards */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Project Folders */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((project, i) => (
             <motion.div
               key={project.id}
@@ -143,60 +147,14 @@ export default function NetflixProjects() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: i * 0.15 }}
             >
-            <TiltCard
-              max={9}
-              className="group cursor-pointer rounded-xl overflow-hidden bg-dark-card border border-dark-border h-full hover:border-matrix/40"
-            >
-            <div onClick={() => setSelectedProject(project)}>
-              {/* Card Top */}
-              <div className={`relative h-48 bg-gradient-to-br ${project.gradient} flex items-center justify-center overflow-hidden`}>
-                <div className="text-white/80 group-hover:scale-110 transition-transform duration-500">
-                  {project.icon}
-                </div>
-
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                  <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center hover:bg-white/90 transition-colors">
-                    <Play className="w-6 h-6 text-black ml-1" fill="black" />
-                  </div>
-                </div>
-
-                <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/70 text-xs font-mono text-gray-300">
-                  {project.category}
-                </div>
-              </div>
-
-              {/* Card Bottom */}
-              <div className="p-5">
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="text-lg font-display font-bold text-white group-hover:text-matrix transition-colors">
-                    {project.title}
-                  </h3>
-                  <span className="text-xs font-mono text-gray-500">{project.year}</span>
-                </div>
-                <p className="text-sm text-gray-400 mb-4 line-clamp-2">{project.description}</p>
-
-                <div className="flex flex-wrap gap-1.5">
-                  {project.tech.slice(0, 3).map((t) => (
-                    <span key={t} className="px-2 py-0.5 rounded text-[10px] font-mono bg-dark-surface text-gray-400 border border-dark-border">
-                      {t}
-                    </span>
-                  ))}
-                  {project.tech.length > 3 && (
-                    <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-dark-surface text-matrix">
-                      +{project.tech.length - 3}
-                    </span>
-                  )}
-                </div>
-
-                <div className="flex items-center gap-2 mt-4 pt-3 border-t border-dark-border">
-                  <span className="px-1.5 py-0.5 rounded text-[10px] font-bold border border-gray-600 text-gray-400">
-                    {project.maturity}
-                  </span>
-                  <span className="text-xs text-gray-500">{project.language}</span>
-                </div>
-              </div>
-            </div>
-            </TiltCard>
+              <ProjectFolder
+                title={project.title}
+                year={project.year}
+                color={project.folderColor}
+                icon={project.icon}
+                onOpen={() => setSelectedProject(project)}
+                papers={project.tech.slice(0, 3).map((t) => <span key={t}>{t}</span>)}
+              />
             </motion.div>
           ))}
         </div>
