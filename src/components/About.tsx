@@ -3,8 +3,22 @@ import { useInView } from './useInView';
 import { MapPin, GraduationCap, Code2, Layers3 } from 'lucide-react';
 import { Suspense, lazy } from 'react';
 import DecryptText from './DecryptText';
+import ErrorBoundary from './ErrorBoundary';
 
 const Lanyard = lazy(() => import('./Lanyard'));
+
+// Static fallback shown if the 3D lanyard fails to load (e.g. WebGL/driver issues).
+function PhotoFallback() {
+  return (
+    <div className="flex h-full items-center justify-center">
+      <div className="relative overflow-hidden rounded-2xl border border-matrix/30 bg-dark-card">
+        <img src="/images/hadi.png" alt="Hadi Abdulla" className="h-64 w-64 object-cover" loading="lazy" />
+        <span className="hud-corner hud-corner-tl" /><span className="hud-corner hud-corner-tr" />
+        <span className="hud-corner hud-corner-bl" /><span className="hud-corner hud-corner-br" />
+      </div>
+    </div>
+  );
+}
 
 const facts = [
   { icon: <MapPin className="w-5 h-5" />, label: 'Based In', value: 'Cyberjaya, Malaysia', color: 'text-matrix' },
@@ -85,11 +99,13 @@ export default function About() {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            {/* Interactive 3D lanyard ID badge (drag it!) */}
+            {/* Interactive 3D lanyard ID badge (drag it!) — resilient with a static fallback */}
             <div className="mb-4 h-[420px]">
-              <Suspense fallback={<div className="flex h-full items-center justify-center font-mono text-xs text-gray-600">loading badge...</div>}>
-                <Lanyard frontImage="/images/hadi-nobg.png" />
-              </Suspense>
+              <ErrorBoundary fallback={<PhotoFallback />}>
+                <Suspense fallback={<div className="flex h-full items-center justify-center font-mono text-xs text-gray-600">loading badge...</div>}>
+                  {isInView && <Lanyard frontImage="/images/hadi-nobg.png" />}
+                </Suspense>
+              </ErrorBoundary>
             </div>
 
             <h3 className="font-mono text-sm text-gray-500 mb-4">
