@@ -88,21 +88,41 @@ export function playBoot() {
   chime.start(now + 0.34); chime.stop(now + 0.62);
 }
 
-// Sonar ping: a clean sine with a slight downward pitch drop and long tail.
+// Realistic sonar ping: a bright attack tone plus a lower resonant body,
+// both routed through a decaying feedback delay for that "underwater" ring.
 export function playRadarPing() {
   const audio = ensureContext();
   if (!audio || !master) return;
+  const out = master;
   const now = audio.currentTime;
-  const osc = audio.createOscillator();
-  const env = audio.createGain();
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(1000, now);
-  osc.frequency.exponentialRampToValueAtTime(760, now + 0.4);
-  env.gain.setValueAtTime(0.0001, now);
-  env.gain.exponentialRampToValueAtTime(0.28, now + 0.02);
-  env.gain.exponentialRampToValueAtTime(0.0001, now + 0.55);
-  osc.connect(env); env.connect(master);
-  osc.start(now); osc.stop(now + 0.6);
+
+  // Shared decaying-echo bus for the classic sonar tail.
+  const delay = audio.createDelay();
+  delay.delayTime.value = 0.16;
+  const feedback = audio.createGain();
+  feedback.gain.value = 0.42;
+  const wet = audio.createGain();
+  wet.gain.value = 0.5;
+  delay.connect(feedback); feedback.connect(delay); delay.connect(wet); wet.connect(out);
+
+  const ping = (freq: number, peak: number, dur: number, drop: number) => {
+    const osc = audio.createOscillator();
+    const env = audio.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, now);
+    osc.frequency.exponentialRampToValueAtTime(drop, now + dur);
+    env.gain.setValueAtTime(0.0001, now);
+    env.gain.exponentialRampToValueAtTime(peak, now + 0.012);
+    env.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+    osc.connect(env);
+    env.connect(out);
+    env.connect(delay);
+    osc.start(now);
+    osc.stop(now + dur + 0.02);
+  };
+
+  ping(1350, 0.24, 0.5, 1050);  // bright attack
+  ping(680, 0.16, 0.7, 540);    // resonant body
 }
 
 // Low ambient scanning hum, looped while the radar is on screen.

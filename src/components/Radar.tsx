@@ -175,7 +175,7 @@ export default function Radar() {
     <div className="relative flex items-center justify-center">
       <canvas ref={canvasRef} style={{ width: 300, height: 300 }} className="drop-shadow-[0_0_25px_rgba(0,255,65,0.15)]" />
       <div className="pointer-events-none absolute inset-0 flex items-end justify-center pb-3">
-        <span className="font-mono text-[9px] tracking-[0.3em] text-matrix/50">SCANNING · CYBERJAYA</span>
+        <span className="font-mono text-[9px] tracking-[0.3em] text-matrix/50">SCANNING</span>
       </div>
     </div>
   );

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+// Full-screen CRT treatment: scanlines, a slow rolling scan band, screen
+// vignette/curvature, subtle flicker, plus a scroll-progress signal bar.
 export default function CyberOverlay() {
   const [progress, setProgress] = useState(0);
 
@@ -18,10 +20,20 @@ export default function CyberOverlay() {
   }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[90]" aria-hidden="true">
-      <div className="absolute left-0 top-0 h-[2px] bg-gradient-to-r from-matrix via-cyber-cyan to-cyber-purple shadow-[0_0_12px_#00ff41]" style={{ width: `${progress}%` }} />
-      <div className="scanline-overlay absolute inset-0 opacity-[0.035]" />
-      <div className="absolute bottom-3 right-3 hidden font-mono text-[8px] tracking-[0.3em] text-matrix/20 lg:block">SIGNAL_STABLE // {Math.round(progress).toString().padStart(3, '0')}%</div>
+    <div className="crt-overlay pointer-events-none fixed inset-0 z-[90]" aria-hidden="true">
+      {/* Scroll-progress signal bar */}
+      <div
+        className="absolute left-0 top-0 h-[2px] bg-gradient-to-r from-matrix via-cyber-cyan to-cyber-purple shadow-[0_0_12px_#00ff41]"
+        style={{ width: `${progress}%` }}
+      />
+      {/* Static scanlines */}
+      <div className="crt-scanlines absolute inset-0" />
+      {/* Rolling bright scan band */}
+      <div className="crt-roll absolute inset-x-0 h-40" />
+      {/* Flicker + vignette (screen curvature) */}
+      <div className="crt-flicker absolute inset-0" />
+      <div className="crt-vignette absolute inset-0" />
+
       <span className="hud-corner hud-corner-tl" /><span className="hud-corner hud-corner-tr" />
       <span className="hud-corner hud-corner-bl" /><span className="hud-corner hud-corner-br" />
     </div>

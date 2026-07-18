@@ -10,6 +10,7 @@ import {
 import { FaJava, FaAws } from 'react-icons/fa';
 import { Code2, Server, Database, Wrench } from 'lucide-react';
 import DecryptText from './DecryptText';
+import LogoMarquee from './LogoMarquee';
 
 const skillCategories = [
   {
@@ -141,6 +142,16 @@ export default function Skills() {
               </span>
             ))}
           </div>
+        </motion.div>
+
+        {/* Tech marquee */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 1 }}
+          className="mt-8"
+        >
+          <LogoMarquee />
         </motion.div>
       </div>
     </section>
