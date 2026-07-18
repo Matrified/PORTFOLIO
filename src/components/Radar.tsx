@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-import { playRadarPing, startRadarAmbient, stopRadarAmbient } from '../utils/sound';
 
 interface Blip {
   angle: number;   // radians, position around center
@@ -39,24 +38,6 @@ export default function Radar() {
     const sin45 = Math.sin(Math.PI / 4);
     let sweep = 0;
     let raf = 0;
-    let visible = false;
-
-    // Start/stop scanning sounds based on whether the radar is on screen.
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !visible) {
-            visible = true;
-            startRadarAmbient();
-          } else if (!entry.isIntersecting && visible) {
-            visible = false;
-            stopRadarAmbient();
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-    observer.observe(canvas);
 
     const draw = () => {
       ctx.clearRect(0, 0, size, size);
@@ -118,14 +99,7 @@ export default function Radar() {
 
         // Distance (angular) between sweep and blip
         const diff = Math.abs(((sweep - blip.angle + Math.PI) % (Math.PI * 2)) - Math.PI);
-        if (diff < 0.04) {
-          blip.lit = 1;
-          if (!blip.pinged && visible) {
-            playRadarPing();
-            blip.pinged = true;
-          }
-        }
-        if (diff > 0.5) blip.pinged = false; // re-arm once sweep moves away
+        if (diff < 0.04) blip.lit = 1;
         blip.lit *= 0.99; // fade out slowly
 
         if (blip.lit > 0.02) {
@@ -166,8 +140,6 @@ export default function Radar() {
 
     return () => {
       cancelAnimationFrame(raf);
-      observer.disconnect();
-      stopRadarAmbient();
     };
   }, []);
 

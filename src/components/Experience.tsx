@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from './useInView';
 import { Code2, MonitorCog, MapPin, Radio, ArrowUpRight } from 'lucide-react';
 import DecryptText from './DecryptText';
-import SideRays from './SideRays';
 
 const roles = [
   {
@@ -45,7 +44,6 @@ export default function Experience() {
   return (
     <section id="experience" className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" ref={ref}>
       <div className="absolute inset-0 cyber-grid opacity-30" />
-      <div className="pointer-events-none absolute inset-0 opacity-40"><SideRays origin="top-right" rayColor1="#00ff41" rayColor2="#00d4ff" /></div>
       <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-matrix/5 blur-[160px]" />
       <div className="max-w-6xl mx-auto relative">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} className="mb-12">

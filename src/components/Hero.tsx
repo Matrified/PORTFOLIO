@@ -4,7 +4,7 @@ import { ArrowUpRight, ChevronDown, Download } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
 import MatrixRain from './MatrixRain';
 import ParticleName from './ParticleName';
-import SideRays from './SideRays';
+import LightRays from './LightRays';
 
 const roles = ['Software Engineer', 'Full-Stack Developer', 'Backend Builder', 'Systems Thinker'];
 
@@ -28,8 +28,8 @@ export default function Hero() {
     <section id="home" className="relative min-h-screen overflow-hidden px-4 sm:px-6 lg:px-8">
       {/* Falling code */}
       <MatrixRain />
-      {/* Light rays across the code screen */}
-      <div className="pointer-events-none absolute inset-0 z-[1] opacity-70"><SideRays origin="top-right" rayColor1="#00ff41" rayColor2="#00d4ff" intensity={1.5} /></div>
+      {/* Light rays beaming down from the top */}
+      <div className="pointer-events-none absolute inset-0 z-[1] opacity-80"><LightRays raysOrigin="top-center" raysColor="#00ff41" raysSpeed={1.2} lightSpread={0.9} followMouse mouseInfluence={0.12} /></div>
       {/* Terminal screen treatment: scanlines + phosphor glow + curvature vignette */}
       <div className="hero-crt absolute inset-0 z-[2]" />
       <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_50%_40%,rgba(0,255,65,0.10),transparent_32%),radial-gradient(circle_at_76%_35%,rgba(0,212,255,0.07),transparent_26%),linear-gradient(to_bottom,rgba(5,5,5,.25),#050505_92%)]" />

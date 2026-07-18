@@ -19,8 +19,9 @@ const skillCategories = [
     accent: {
       icon: 'text-matrix',
       title: 'text-matrix',
-      cardBorder: 'hover:border-matrix/50',
-      cardGlow: 'hover:shadow-[0_0_35px_rgba(0,255,65,0.10)]',
+      cardBorder: 'border-matrix/25 hover:border-matrix/60',
+      cardBg: 'bg-matrix/[0.04]',
+      cardGlow: 'hover:shadow-[0_0_35px_rgba(0,255,65,0.12)]',
       chip: 'border-matrix/25 text-matrix hover:border-matrix/60 hover:bg-matrix/10',
     },
     skills: [
@@ -38,8 +39,9 @@ const skillCategories = [
     accent: {
       icon: 'text-cyber-cyan',
       title: 'text-cyber-cyan',
-      cardBorder: 'hover:border-cyber-cyan/50',
-      cardGlow: 'hover:shadow-[0_0_35px_rgba(0,212,255,0.10)]',
+      cardBorder: 'border-cyber-cyan/25 hover:border-cyber-cyan/60',
+      cardBg: 'bg-cyber-cyan/[0.04]',
+      cardGlow: 'hover:shadow-[0_0_35px_rgba(0,212,255,0.12)]',
       chip: 'border-cyber-cyan/25 text-cyber-cyan hover:border-cyber-cyan/60 hover:bg-cyber-cyan/10',
     },
     skills: [
@@ -56,8 +58,9 @@ const skillCategories = [
     accent: {
       icon: 'text-cyber-purple',
       title: 'text-cyber-purple',
-      cardBorder: 'hover:border-cyber-purple/50',
-      cardGlow: 'hover:shadow-[0_0_35px_rgba(177,74,237,0.12)]',
+      cardBorder: 'border-cyber-purple/30 hover:border-cyber-purple/60',
+      cardBg: 'bg-cyber-purple/[0.05]',
+      cardGlow: 'hover:shadow-[0_0_35px_rgba(177,74,237,0.14)]',
       chip: 'border-cyber-purple/30 text-cyber-purple hover:border-cyber-purple/60 hover:bg-cyber-purple/10',
     },
     skills: [
@@ -77,8 +80,9 @@ const skillCategories = [
     accent: {
       icon: 'text-yellow-400',
       title: 'text-yellow-400',
-      cardBorder: 'hover:border-yellow-400/50',
-      cardGlow: 'hover:shadow-[0_0_35px_rgba(250,204,21,0.10)]',
+      cardBorder: 'border-yellow-400/25 hover:border-yellow-400/60',
+      cardBg: 'bg-yellow-400/[0.04]',
+      cardGlow: 'hover:shadow-[0_0_35px_rgba(250,204,21,0.12)]',
       chip: 'border-yellow-400/25 text-yellow-300 hover:border-yellow-400/60 hover:bg-yellow-400/10',
     },
     skills: [
@@ -125,7 +129,7 @@ export default function Skills() {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: catIndex * 0.15 }}
-              className={`glass-card spotlight-card rounded-2xl p-6 group border border-dark-border transition-all ${category.accent.cardBorder} ${category.accent.cardGlow}`}
+              className={`spotlight-card rounded-2xl p-6 group border backdrop-blur-md transition-all ${category.accent.cardBorder} ${category.accent.cardBg} ${category.accent.cardGlow}`}
             >
               <div className="flex items-center gap-3 mb-6">
                 <span className={category.accent.icon}>{category.icon}</span>
@@ -149,28 +153,6 @@ export default function Skills() {
             </motion.div>
           ))}
         </div>
-
-        {/* Currently Learning */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-8 glass-card rounded-2xl p-6"
-        >
-          <h3 className="font-mono text-sm text-gray-500 mb-4">
-            <span className="text-matrix animate-pulse">&#9679;</span> currently_learning
-          </h3>
-          <div className="flex flex-wrap gap-3">
-            {['Data Structures', 'Algorithms', 'System Design', 'Operating Systems', 'Distributed Systems'].map((tech) => (
-              <span
-                key={tech}
-                className="px-4 py-2 rounded-full bg-matrix/5 border border-matrix/20 text-sm text-matrix font-mono hover:bg-matrix/10 hover:border-matrix/40 transition-all cursor-default"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        </motion.div>
 
         {/* Tech marquee */}
         <motion.div

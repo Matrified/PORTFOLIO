@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion';
 import { useInView } from './useInView';
-import { Award, ExternalLink, Shield } from 'lucide-react';
+import { Award, Shield } from 'lucide-react';
 import { SiGithub, SiGoogle } from 'react-icons/si';
 import { FaAws } from 'react-icons/fa';
 import DecryptText from './DecryptText';
+import CircularGallery from './CircularGallery';
 
 interface Cert {
   title: string;
@@ -65,6 +66,8 @@ const certs: Cert[] = [
   },
 ];
 
+const galleryItems = certs.map((c) => ({ image: c.image, text: c.issuer }));
+
 export default function Certifications() {
   const { ref, isInView } = useInView(0.1);
 
@@ -82,44 +85,27 @@ export default function Certifications() {
             <DecryptText as="h2" text="Certifications" className="text-3xl sm:text-4xl font-display font-bold text-white" />
             <div className="flex-1 h-[1px] bg-dark-border ml-4" />
           </div>
-          <p className="text-gray-500 font-mono text-sm mt-2">// verified credentials</p>
+          <p className="text-gray-500 font-mono text-sm mt-2">// drag or scroll to browse — click a card to open it</p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {certs.map((cert, i) => (
-            <motion.a
+        {/* Movable circular gallery of certificate images */}
+        <div className="h-[500px] w-full">
+          <CircularGallery items={galleryItems} bend={2.5} textColor="#e5e7eb" borderRadius={0.05} scrollEase={0.04} />
+        </div>
+
+        {/* Quick legend / links */}
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          {certs.map((cert) => (
+            <a
               key={cert.title + cert.issuer}
               href={cert.image}
               target="_blank"
               rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-              className={`cursor-target group glass-card block rounded-xl border ${cert.accent.split(' ')[0]} overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.03] hover:shadow-[0_18px_40px_rgba(0,0,0,0.5)]`}
+              className={`cursor-target inline-flex items-center gap-2 rounded-full border ${cert.accent.split(' ')[0]} bg-dark-card/60 px-3 py-1.5 text-xs text-gray-300 transition-all hover:scale-105`}
             >
-              {/* Certificate image */}
-              <div className="relative overflow-hidden border-b border-dark-border bg-white/[0.02]">
-                <img
-                  src={cert.image}
-                  alt={`${cert.title} certificate`}
-                  loading="lazy"
-                  className="h-40 w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-dark-card/80 to-transparent opacity-60" />
-                <div className="absolute right-2 top-2 rounded-md bg-black/60 p-1.5 opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
-                  <ExternalLink className="h-3.5 w-3.5 text-white" />
-                </div>
-              </div>
-              {/* Details */}
-              <div className="p-5">
-                <div className="mb-3 flex items-start justify-between">
-                  <div className={cert.accent.split(' ')[1]}>{cert.logo}</div>
-                </div>
-                <h3 className="text-sm font-semibold leading-snug text-white">{cert.title}</h3>
-                <p className="mt-1.5 text-xs text-gray-400">{cert.issuer}</p>
-                <p className="mt-2 font-mono text-xs text-gray-600">{cert.date}</p>
-              </div>
-            </motion.a>
+              <span className={cert.accent.split(' ')[1]}>{cert.logo}</span>
+              {cert.issuer}
+            </a>
           ))}
         </div>
       </div>
