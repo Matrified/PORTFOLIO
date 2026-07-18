@@ -5,6 +5,7 @@ import { SiGithub, SiGoogle } from 'react-icons/si';
 import { FaAws } from 'react-icons/fa';
 import DecryptText from './DecryptText';
 import CircularGallery from './CircularGallery';
+import GridScanBg from './GridScanBg';
 
 interface Cert {
   title: string;
@@ -72,8 +73,10 @@ export default function Certifications() {
   const { ref, isInView } = useInView(0.1);
 
   return (
-    <section id="certifications" className="relative py-24 px-4 sm:px-6 lg:px-8" ref={ref}>
-      <div className="max-w-6xl mx-auto">
+    <section id="certifications" className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" ref={ref}>
+      {/* Static perspective grid-scan backdrop */}
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-70"><GridScanBg color="0,255,65" /></div>
+      <div className="relative z-10 max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -88,26 +91,11 @@ export default function Certifications() {
           <p className="text-gray-500 font-mono text-sm mt-2">// drag or scroll to browse — click a card to open it</p>
         </motion.div>
 
-        {/* Movable circular gallery of certificate images */}
-        <div className="h-[500px] w-full">
-          <CircularGallery items={galleryItems} bend={2.5} textColor="#e5e7eb" borderRadius={0.05} scrollEase={0.04} />
-        </div>
+      </div>
 
-        {/* Quick legend / links */}
-        <div className="mt-6 flex flex-wrap justify-center gap-3">
-          {certs.map((cert) => (
-            <a
-              key={cert.title + cert.issuer}
-              href={cert.image}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`cursor-target inline-flex items-center gap-2 rounded-full border ${cert.accent.split(' ')[0]} bg-dark-card/60 px-3 py-1.5 text-xs text-gray-300 transition-all hover:scale-105`}
-            >
-              <span className={cert.accent.split(' ')[1]}>{cert.logo}</span>
-              {cert.issuer}
-            </a>
-          ))}
-        </div>
+      {/* Movable circular gallery — full viewport width, click a certificate to open it */}
+      <div className="relative z-10 left-1/2 right-1/2 -mx-[50vw] h-[440px] w-screen">
+        <CircularGallery items={galleryItems} bend={2.5} borderRadius={0.06} scrollEase={0.04} />
       </div>
     </section>
   );

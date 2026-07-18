@@ -74,7 +74,7 @@ class Media {
     const texture = new Texture(this.gl, { generateMipmaps: true });
     this.program = new Program(this.gl, {
       depthTest: false, depthWrite: false,
-      vertex: `precision highp float;attribute vec3 position;attribute vec2 uv;uniform mat4 modelViewMatrix;uniform mat4 projectionMatrix;uniform float uTime;uniform float uSpeed;varying vec2 vUv;void main(){vUv=uv;vec3 p=position;p.z=(sin(p.x*4.0+uTime)*1.5+cos(p.y*2.0+uTime)*1.5)*(0.1+uSpeed*0.5);gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);}`,
+      vertex: `precision highp float;attribute vec3 position;attribute vec2 uv;uniform mat4 modelViewMatrix;uniform mat4 projectionMatrix;uniform float uTime;uniform float uSpeed;varying vec2 vUv;void main(){vUv=uv;vec3 p=position;p.z=(sin(p.x*3.0+uTime)*0.35+cos(p.y*1.5+uTime)*0.35)*(0.05+abs(uSpeed)*0.2);gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);}`,
       fragment: `precision highp float;uniform vec2 uImageSizes;uniform vec2 uPlaneSizes;uniform sampler2D tMap;uniform float uBorderRadius;varying vec2 vUv;float roundedBoxSDF(vec2 p,vec2 b,float r){vec2 d=abs(p)-b;return length(max(d,vec2(0.0)))+min(max(d.x,d.y),0.0)-r;}void main(){vec2 ratio=vec2(min((uPlaneSizes.x/uPlaneSizes.y)/(uImageSizes.x/uImageSizes.y),1.0),min((uPlaneSizes.y/uPlaneSizes.x)/(uImageSizes.y/uImageSizes.x),1.0));vec2 uv=vec2(vUv.x*ratio.x+(1.0-ratio.x)*0.5,vUv.y*ratio.y+(1.0-ratio.y)*0.5);vec4 color=texture2D(tMap,uv);float d=roundedBoxSDF(vUv-0.5,vec2(0.5-uBorderRadius),uBorderRadius);float a=1.0-smoothstep(-0.002,0.002,d);gl_FragColor=vec4(color.rgb,a);}`,
       uniforms: {
         tMap: { value: texture }, uPlaneSizes: { value: [0, 0] }, uImageSizes: { value: [0, 0] },
@@ -87,7 +87,7 @@ class Media {
     img.onload = () => { texture.image = img; this.program.uniforms.uImageSizes.value = [img.naturalWidth, img.naturalHeight]; };
   }
   createMesh() { this.plane = new Mesh(this.gl, { geometry: this.geometry, program: this.program }); this.plane.setParent(this.scene); }
-  createTitle() { this.title = new Title({ gl: this.gl, plane: this.plane, text: this.text, textColor: this.textColor, font: this.font }); }
+  createTitle() { /* labels removed */ }
   update(scroll, direction) {
     this.plane.position.x = this.x - scroll.current - this.extra;
     const x = this.plane.position.x;
@@ -115,8 +115,9 @@ class Media {
     if (screen) this.screen = screen;
     if (viewport) this.viewport = viewport;
     this.scale = this.screen.height / 1500;
-    this.plane.scale.y = (this.viewport.height * (900 * this.scale)) / this.screen.height;
-    this.plane.scale.x = (this.viewport.width * (700 * this.scale)) / this.screen.width;
+    // Landscape cards (wider than tall) to match certificate aspect ratio
+    this.plane.scale.y = (this.viewport.height * (720 * this.scale)) / this.screen.height;
+    this.plane.scale.x = (this.viewport.width * (1120 * this.scale)) / this.screen.width;
     this.plane.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y];
     this.padding = 2;
     this.width = this.plane.scale.x + this.padding;
@@ -151,9 +152,19 @@ class App {
       scene: this.scene, screen: this.screen, text: data.text, viewport: this.viewport, bend, textColor, borderRadius, font
     }));
   }
-  onTouchDown(e) { this.isDown = true; this.scroll.position = this.scroll.current; this.start = e.touches ? e.touches[0].clientX : e.clientX; }
-  onTouchMove(e) { if (!this.isDown) return; const x = e.touches ? e.touches[0].clientX : e.clientX; this.scroll.target = this.scroll.position + (this.start - x) * (this.scrollSpeed * 0.025); }
-  onTouchUp() { this.isDown = false; this.onCheck(); }
+  onTouchDown(e) { this.isDown = true; this.moved = 0; this.scroll.position = this.scroll.current; this.start = e.touches ? e.touches[0].clientX : e.clientX; }
+  onTouchMove(e) { if (!this.isDown) return; const x = e.touches ? e.touches[0].clientX : e.clientX; this.moved = Math.max(this.moved, Math.abs(this.start - x)); this.scroll.target = this.scroll.position + (this.start - x) * (this.scrollSpeed * 0.025); }
+  onTouchUp() {
+    this.isDown = false;
+    this.onCheck();
+    // Treat a near-stationary press as a click: open the centered certificate image.
+    if (this.moved < 8 && this.medias && this.medias[0]) {
+      const width = this.medias[0].width;
+      const idx = ((Math.round(this.scroll.current / width) % this.medias.length) + this.medias.length) % this.medias.length;
+      const media = this.medias[idx];
+      if (media?.image) window.open(media.image, '_blank', 'noopener,noreferrer');
+    }
+  }
   onWheel(e) { const d = e.deltaY || e.wheelDelta || e.detail; this.scroll.target += (d > 0 ? this.scrollSpeed : -this.scrollSpeed) * 0.2; this.onCheckDebounce(); }
   onCheck() { if (!this.medias || !this.medias[0]) return; const width = this.medias[0].width; const idx = Math.round(Math.abs(this.scroll.target) / width); const item = width * idx; this.scroll.target = this.scroll.target < 0 ? -item : item; }
   onResize() {

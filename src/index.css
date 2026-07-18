@@ -328,3 +328,34 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .logo-marquee-track { animation: none; }
 }
+
+/* ---------- Dot grid ---------- */
+.dot-grid {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1.5px);
+  background-size: 22px 22px;
+}
+
+/* Subtle global dot grid behind everything */
+body {
+  background-color: #050505;
+  background-image: radial-gradient(circle, rgba(0, 255, 65, 0.035) 1px, transparent 1.5px);
+  background-size: 26px 26px;
+}
+
+/* ---------- Magic edge glow (Tools card) ---------- */
+.magic-edge::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(from 0deg, transparent 0%, rgba(250, 204, 21, 0.7) 12%, transparent 30%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: magicSpin 4.5s linear infinite;
+  pointer-events: none;
+}
+@keyframes magicSpin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .magic-edge::after { animation: none; } }

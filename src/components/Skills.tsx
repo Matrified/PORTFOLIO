@@ -19,9 +19,10 @@ const skillCategories = [
     accent: {
       icon: 'text-matrix',
       title: 'text-matrix',
-      cardBorder: 'border-matrix/25 hover:border-matrix/60',
+      cardBorder: 'border-matrix/30 hover:border-matrix/70',
       cardBg: 'bg-matrix/[0.04]',
-      cardGlow: 'hover:shadow-[0_0_35px_rgba(0,255,65,0.12)]',
+      rgb: '0,255,65',
+      cardGlow: '',
       chip: 'border-matrix/25 text-matrix hover:border-matrix/60 hover:bg-matrix/10',
     },
     skills: [
@@ -39,9 +40,10 @@ const skillCategories = [
     accent: {
       icon: 'text-cyber-cyan',
       title: 'text-cyber-cyan',
-      cardBorder: 'border-cyber-cyan/25 hover:border-cyber-cyan/60',
+      cardBorder: 'border-cyber-cyan/30 hover:border-cyber-cyan/70',
       cardBg: 'bg-cyber-cyan/[0.04]',
-      cardGlow: 'hover:shadow-[0_0_35px_rgba(0,212,255,0.12)]',
+      rgb: '0,212,255',
+      cardGlow: '',
       chip: 'border-cyber-cyan/25 text-cyber-cyan hover:border-cyber-cyan/60 hover:bg-cyber-cyan/10',
     },
     skills: [
@@ -58,9 +60,10 @@ const skillCategories = [
     accent: {
       icon: 'text-cyber-purple',
       title: 'text-cyber-purple',
-      cardBorder: 'border-cyber-purple/30 hover:border-cyber-purple/60',
+      cardBorder: 'border-cyber-purple/35 hover:border-cyber-purple/70',
       cardBg: 'bg-cyber-purple/[0.05]',
-      cardGlow: 'hover:shadow-[0_0_35px_rgba(177,74,237,0.14)]',
+      rgb: '177,74,237',
+      cardGlow: '',
       chip: 'border-cyber-purple/30 text-cyber-purple hover:border-cyber-purple/60 hover:bg-cyber-purple/10',
     },
     skills: [
@@ -80,9 +83,11 @@ const skillCategories = [
     accent: {
       icon: 'text-yellow-400',
       title: 'text-yellow-400',
-      cardBorder: 'border-yellow-400/25 hover:border-yellow-400/60',
+      cardBorder: 'border-yellow-400/30 hover:border-yellow-400/70',
       cardBg: 'bg-yellow-400/[0.04]',
-      cardGlow: 'hover:shadow-[0_0_35px_rgba(250,204,21,0.12)]',
+      rgb: '250,204,21',
+      magic: true,
+      cardGlow: '',
       chip: 'border-yellow-400/25 text-yellow-300 hover:border-yellow-400/60 hover:bg-yellow-400/10',
     },
     skills: [
@@ -129,7 +134,8 @@ export default function Skills() {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: catIndex * 0.15 }}
-              className={`spotlight-card rounded-2xl p-6 group border backdrop-blur-md transition-all ${category.accent.cardBorder} ${category.accent.cardBg} ${category.accent.cardGlow}`}
+              style={{ boxShadow: `0 0 24px rgba(${category.accent.rgb},0.10), inset 0 0 22px rgba(${category.accent.rgb},0.05)` }}
+              className={`spotlight-card dot-grid rounded-2xl p-6 group border backdrop-blur-md transition-all hover:-translate-y-1 ${category.accent.cardBorder} ${category.accent.cardBg} ${(category.accent as { magic?: boolean }).magic ? 'magic-edge' : ''}`}
             >
               <div className="flex items-center gap-3 mb-6">
                 <span className={category.accent.icon}>{category.icon}</span>
