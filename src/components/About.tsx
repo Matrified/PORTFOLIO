@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion';
 import { useInView } from './useInView';
-import { MapPin, GraduationCap, Code2, Layers3, Boxes, Crown, Footprints } from 'lucide-react';
+import { MapPin, GraduationCap, Code2, Layers3 } from 'lucide-react';
 import { Suspense, lazy } from 'react';
 import DecryptText from './DecryptText';
 import ErrorBoundary from './ErrorBoundary';
+import Interests from './Interests';
 
 const Lanyard = lazy(() => import('./Lanyard'));
 
@@ -48,12 +49,13 @@ export default function About() {
           <p className="text-gray-500 font-mono text-sm mt-2">// getting to know me</p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Left - Bio */}
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          {/* Left column — bio, quick facts, interests */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
+            className="space-y-8"
           >
             <div className="glass-card rounded-2xl p-8 relative overflow-hidden">
               {/* Terminal header */}
@@ -83,70 +85,57 @@ export default function About() {
                 </p>
                 <p>
                   My work spans backend architecture, API design, interactive interfaces, testing,
-                  and deployment. I care about clear systems, thoughtful trade-offs, and software
-                  that remains understandable as it grows.
+                  and deployment. I care about clear systems and software that stays understandable as it grows.
                 </p>
               </div>
-
-              {/* Corner decoration */}
               <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-matrix/10 to-transparent" />
+            </div>
+
+            {/* Quick facts */}
+            <div>
+              <h3 className="font-mono text-sm text-gray-500 mb-4">
+                <span className="text-matrix">#</span> quick_facts
+              </h3>
+              <div className="grid grid-cols-2 gap-3">
+                {facts.map((fact, i) => (
+                  <motion.div
+                    key={fact.label}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ delay: 0.4 + i * 0.1 }}
+                    className="glass-card rounded-xl p-4 group hover:border-matrix/30 transition-all cursor-default"
+                  >
+                    <div className={`${fact.color} mb-2 group-hover:scale-110 transition-transform inline-block`}>
+                      {fact.icon}
+                    </div>
+                    <div className="text-xs text-gray-500 font-mono">{fact.label}</div>
+                    <div className="text-sm text-white font-medium mt-1">{fact.value}</div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Interests */}
+            <div>
+              <h3 className="font-mono text-sm text-gray-500 mb-4">
+                <span className="text-matrix">#</span> interests
+              </h3>
+              <Interests />
             </div>
           </motion.div>
 
-          {/* Right - Photo + Quick Facts */}
+          {/* Right column — the 3D lanyard fills the whole side */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
+            className="lg:sticky lg:top-24 h-[640px]"
           >
-            {/* Interactive 3D lanyard ID badge (drag it!) — resilient with a static fallback */}
-            <div className="mb-4 h-[560px]">
-              <ErrorBoundary fallback={<PhotoFallback />}>
-                <Suspense fallback={<div className="flex h-full items-center justify-center font-mono text-xs text-gray-600">loading badge...</div>}>
-                  {isInView && <Lanyard />}
-                </Suspense>
-              </ErrorBoundary>
-            </div>
-
-            <h3 className="font-mono text-sm text-gray-500 mb-4">
-              <span className="text-matrix">#</span> quick_facts
-            </h3>
-            <div className="grid grid-cols-2 gap-3">
-              {facts.map((fact, i) => (
-                <motion.div
-                  key={fact.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.5 + i * 0.1 }}
-                  className="glass-card rounded-xl p-4 group hover:border-matrix/30 transition-all cursor-default"
-                >
-                  <div className={`${fact.color} mb-2 group-hover:scale-110 transition-transform inline-block`}>
-                    {fact.icon}
-                  </div>
-                  <div className="text-xs text-gray-500 font-mono">{fact.label}</div>
-                  <div className="text-sm text-white font-medium mt-1">{fact.value}</div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Interests */}
-            <h3 className="font-mono text-sm text-gray-500 mb-4 mt-8">
-              <span className="text-matrix">#</span> interests
-            </h3>
-            <div className="flex flex-wrap gap-3">
-              <span className="interest-chip">
-                <Boxes className="h-4 w-4 text-white" />
-                <span className="rubiks-text font-bold">Rubik's Cube</span>
-              </span>
-              <span className="interest-chip">
-                <Crown className="h-4 w-4 text-gray-200" />
-                <span className="chess-text font-bold">Chess</span>
-              </span>
-              <span className="interest-chip">
-                <Footprints className="h-4 w-4 text-cyber-cyan" />
-                <span className="font-semibold text-cyber-cyan">Running</span>
-              </span>
-            </div>
+            <ErrorBoundary fallback={<PhotoFallback />}>
+              <Suspense fallback={<div className="flex h-full items-center justify-center font-mono text-xs text-gray-600">loading badge...</div>}>
+                {isInView && <Lanyard />}
+              </Suspense>
+            </ErrorBoundary>
           </motion.div>
         </div>
       </div>

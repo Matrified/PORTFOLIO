@@ -43,13 +43,15 @@ function srgb(hex) { return new THREE.Color(hex).convertSRGBToLinear(); }
 
 export default function GridScan({
   linesColor = '#123d1f',
-  scanColor = '#00ff88',
-  scanOpacity = 0.5,
+  scanColor = '#00ff99',
+  scanOpacity = 0.9,
   gridScale = 0.1,
   lineThickness = 1,
-  sensitivity = 0.25,
+  sensitivity = 0,
   chromaticAberration = 0.002,
-  bloomIntensity = 0.5,
+  bloomIntensity = 0.7,
+  scanDuration = 4.5,
+  scanDelay = 0.5,
   className = '',
   style = {}
 }) {
@@ -81,7 +83,7 @@ export default function GridScan({
       uScanColor: { value: srgb(scanColor) },
       uGridScale: { value: gridScale },
       uScanOpacity: { value: scanOpacity },
-      uScanDuration: { value: 2.4 }, uScanDelay: { value: 1.6 }
+      uScanDuration: { value: scanDuration }, uScanDelay: { value: scanDelay }
     };
     const material = new THREE.ShaderMaterial({ uniforms, vertexShader: vert, fragmentShader: frag, transparent: true, depthWrite: false, depthTest: false });
     const scene = new THREE.Scene();
@@ -110,9 +112,12 @@ export default function GridScan({
       const ny = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
       lookTarget.current.set(nx, ny);
     };
-    container.addEventListener('mousemove', onMove);
     const onLeave = () => lookTarget.current.set(0, 0);
-    container.addEventListener('mouseleave', onLeave);
+    const mouseEnabled = s > 0;
+    if (mouseEnabled) {
+      container.addEventListener('mousemove', onMove);
+      container.addEventListener('mouseleave', onLeave);
+    }
 
     let raf = 0, visible = true;
     const io = new IntersectionObserver((en) => { visible = en[0].isIntersecting; }, { threshold: 0 });
@@ -133,8 +138,10 @@ export default function GridScan({
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', onResize);
-      container.removeEventListener('mousemove', onMove);
-      container.removeEventListener('mouseleave', onLeave);
+      if (mouseEnabled) {
+        container.removeEventListener('mousemove', onMove);
+        container.removeEventListener('mouseleave', onLeave);
+      }
       io.disconnect();
       composer.dispose();
       material.dispose();

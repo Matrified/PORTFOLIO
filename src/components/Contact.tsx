@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from './useInView';
-import { Mail, MapPin, Send, ArrowUpRight } from 'lucide-react';
+import { Mail, MapPin, ArrowUpRight, Copy, Check } from 'lucide-react';
 import Radar from './Radar';
+
+const EMAIL = 'hadiabdulla464@gmail.com';
 
 const socialLinks = [
   {
@@ -31,17 +33,16 @@ const socialLinks = [
 
 export default function Contact() {
   const { ref, isInView } = useInView(0.1);
-  const [formState, setFormState] = useState({ name: '', email: '', message: '' });
-  const [sent, setSent] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Construct mailto link
-    const subject = encodeURIComponent(`Portfolio Contact from ${formState.name}`);
-    const body = encodeURIComponent(`Name: ${formState.name}\nEmail: ${formState.email}\n\n${formState.message}`);
-    window.open(`mailto:hadiabdulla464@gmail.com?subject=${subject}&body=${body}`, '_blank');
-    setSent(true);
-    setTimeout(() => setSent(false), 3000);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* clipboard not available */
+    }
   };
 
   return (
@@ -92,7 +93,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="text-white font-semibold">Email</h4>
-                  <p className="text-gray-400 text-sm">Reach out via the form</p>
+                  <p className="text-gray-400 text-sm">{EMAIL}</p>
                   <p className="text-gray-500 text-xs font-mono mt-1">Typically responds within 24h</p>
                 </div>
               </div>
@@ -133,77 +134,57 @@ export default function Contact() {
             </div>
           </motion.div>
 
-          {/* Right - Contact Form */}
+          {/* Right - Email CTA */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <form onSubmit={handleSubmit} className="glass-card rounded-2xl p-8 space-y-6">
-              <div className="flex items-center gap-2 mb-2 pb-4 border-b border-dark-border">
+            <div className="glass-card rounded-2xl p-8 h-full flex flex-col">
+              <div className="flex items-center gap-2 mb-6 pb-4 border-b border-dark-border">
                 <div className="w-3 h-3 rounded-full bg-red-500" />
                 <div className="w-3 h-3 rounded-full bg-yellow-500" />
                 <div className="w-3 h-3 rounded-full bg-green-500" />
-                <span className="ml-3 font-mono text-xs text-gray-500">contact_form.tsx</span>
+                <span className="ml-3 font-mono text-xs text-gray-500">send_email.sh</span>
               </div>
 
-              <div>
-                <label className="block text-xs font-mono text-gray-500 mb-2">
-                  <span className="text-matrix">const</span> name <span className="text-matrix">=</span>
-                </label>
-                <input
-                  type="text"
-                  value={formState.name}
-                  onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                  placeholder="Your Name"
-                  required
-                  className="w-full bg-dark-surface border border-dark-border rounded-lg px-4 py-3 text-sm text-white placeholder:text-gray-600 focus:outline-none focus:border-matrix/50 transition-colors font-mono"
-                />
-              </div>
+              <div className="flex-1 flex flex-col justify-center">
+                <div className="w-14 h-14 rounded-xl bg-matrix/10 flex items-center justify-center mb-6">
+                  <Mail className="w-7 h-7 text-matrix" />
+                </div>
 
-              <div>
-                <label className="block text-xs font-mono text-gray-500 mb-2">
-                  <span className="text-matrix">const</span> email <span className="text-matrix">=</span>
-                </label>
-                <input
-                  type="email"
-                  value={formState.email}
-                  onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                  placeholder="your@email.com"
-                  required
-                  className="w-full bg-dark-surface border border-dark-border rounded-lg px-4 py-3 text-sm text-white placeholder:text-gray-600 focus:outline-none focus:border-matrix/50 transition-colors font-mono"
-                />
-              </div>
+                <h3 className="text-2xl font-display font-bold text-white mb-2">
+                  Drop me an email
+                </h3>
+                <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+                  The fastest way to reach me. Whether it's an internship, a project,
+                  or just a technical chat, I'd love to hear from you.
+                </p>
 
-              <div>
-                <label className="block text-xs font-mono text-gray-500 mb-2">
-                  <span className="text-matrix">const</span> message <span className="text-matrix">=</span>
-                </label>
-                <textarea
-                  value={formState.message}
-                  onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                  placeholder="Hey Hadi, I'd love to chat about..."
-                  required
-                  rows={5}
-                  className="w-full bg-dark-surface border border-dark-border rounded-lg px-4 py-3 text-sm text-white placeholder:text-gray-600 focus:outline-none focus:border-matrix/50 transition-colors font-mono resize-none"
-                />
-              </div>
+                {/* Email address chip */}
+                <div className="flex items-center gap-3 bg-dark-surface border border-dark-border rounded-lg px-4 py-3 mb-6">
+                  <span className="font-mono text-sm text-cyber-cyan truncate flex-1">{EMAIL}</span>
+                  <button
+                    onClick={handleCopy}
+                    aria-label="Copy email address"
+                    className="text-gray-500 hover:text-matrix transition-colors shrink-0 cursor-target"
+                  >
+                    {copied ? <Check className="w-4 h-4 text-matrix" /> : <Copy className="w-4 h-4" />}
+                  </button>
+                </div>
 
-              <button
-                type="submit"
-                className="w-full py-3 rounded-lg bg-matrix text-dark-bg font-mono font-semibold text-sm flex items-center justify-center gap-2 hover:shadow-[0_0_30px_rgba(0,255,65,0.3)] transition-all relative overflow-hidden group"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-matrix to-cyber-cyan opacity-0 group-hover:opacity-100 transition-opacity" />
-                <span className="relative z-10 flex items-center gap-2">
-                  {sent ? '✓ Message Prepared!' : (
-                    <>
-                      <Send className="w-4 h-4" />
-                      Send Message
-                    </>
-                  )}
-                </span>
-              </button>
-            </form>
+                <a
+                  href={`mailto:${EMAIL}?subject=${encodeURIComponent("Hey Hadi — let's connect")}`}
+                  className="w-full py-3 rounded-lg bg-matrix text-dark-bg font-mono font-semibold text-sm flex items-center justify-center gap-2 hover:shadow-[0_0_30px_rgba(0,255,65,0.3)] transition-all relative overflow-hidden group cursor-target"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-matrix to-cyber-cyan opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <span className="relative z-10 flex items-center gap-2">
+                    <Mail className="w-4 h-4" />
+                    Compose Email
+                  </span>
+                </a>
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>

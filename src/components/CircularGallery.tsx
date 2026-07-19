@@ -115,11 +115,11 @@ class Media {
     if (screen) this.screen = screen;
     if (viewport) this.viewport = viewport;
     this.scale = this.screen.height / 1500;
-    // Landscape cards sized so roughly 3 fit fully with 2 halves at the edges
-    this.plane.scale.y = (this.viewport.height * (620 * this.scale)) / this.screen.height;
-    this.plane.scale.x = (this.viewport.width * (900 * this.scale)) / this.screen.width;
+    // Large landscape cards; ~3 fit fully with 2 halves at the edges
+    this.plane.scale.y = (this.viewport.height * (900 * this.scale)) / this.screen.height;
+    this.plane.scale.x = (this.viewport.width * (1320 * this.scale)) / this.screen.width;
     this.plane.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y];
-    this.padding = 1.4;
+    this.padding = 1.3;
     this.width = this.plane.scale.x + this.padding;
     this.widthTotal = this.width * this.length;
     this.x = this.width * this.index;

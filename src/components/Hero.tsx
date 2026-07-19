@@ -1,12 +1,10 @@
-import { useEffect, useState, lazy, Suspense } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, ChevronDown, Download } from 'lucide-react';
-import { SiGithub } from 'react-icons/si';
+import { ArrowUpRight, ChevronDown, Download, Mail } from 'lucide-react';
+import { SiGithub, SiLinkedin } from 'react-icons/si';
 import MatrixRain from './MatrixRain';
 import ParticleName from './ParticleName';
 import LightRays from './LightRays';
-
-const PixelTrail = lazy(() => import('./PixelTrail'));
 
 const roles = ['Software Engineer', 'Full-Stack Developer', 'Backend Builder', 'Systems Thinker'];
 
@@ -33,8 +31,6 @@ export default function Hero() {
       {/* Static light rays: top-center + a side beam */}
       <div className="pointer-events-none absolute inset-0 z-[1] opacity-80"><LightRays raysOrigin="top-center" raysColor="#00ff41" raysSpeed={1.0} lightSpread={0.9} followMouse={false} /></div>
       <div className="pointer-events-none absolute inset-0 z-[1] opacity-50"><LightRays raysOrigin="top-right" raysColor="#00d4ff" raysSpeed={0.8} lightSpread={1.1} followMouse={false} /></div>
-      {/* Interactive pixel trail that follows the cursor */}
-      <div className="absolute inset-0 z-[3]"><Suspense fallback={null}><PixelTrail gridSize={70} color="#00ff41" /></Suspense></div>
       {/* Terminal screen treatment: scanlines + phosphor glow + curvature vignette */}
       <div className="hero-crt absolute inset-0 z-[2] pointer-events-none" />
       <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_50%_40%,rgba(0,255,65,0.10),transparent_32%),radial-gradient(circle_at_76%_35%,rgba(0,212,255,0.07),transparent_26%),linear-gradient(to_bottom,rgba(5,5,5,.25),#050505_92%)]" />
@@ -48,10 +44,20 @@ export default function Hero() {
         </motion.div>
 
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.65 }} className="mt-6 flex min-h-8 items-center justify-center font-mono text-lg sm:text-2xl">
-          <span className="mr-2 text-gray-500">hadi@portfolio</span><span className="mr-2 text-matrix">:~$</span><span className="text-gray-200">{displayText}</span><span className="ml-1 h-6 w-[2px] animate-pulse bg-matrix" />
+          <span className="mr-2 text-matrix">~/portfolio $</span><span className="text-gray-200">{displayText}</span><span className="ml-1 h-6 w-[2px] animate-pulse bg-matrix" />
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1 }} className="mt-10 flex flex-wrap justify-center gap-3">
+        {/* Quick contact under the name */}
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.85 }} className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-gray-400">
+          <a href="https://www.linkedin.com/in/hadi-abdulla-586464324/" target="_blank" rel="noopener noreferrer" className="cursor-target inline-flex items-center gap-2 hover:text-cyber-cyan transition-colors">
+            <SiLinkedin className="h-4 w-4" /> linkedin.com/in/hadi-abdulla
+          </a>
+          <a href="mailto:hadiabdulla464@gmail.com" className="cursor-target inline-flex items-center gap-2 hover:text-matrix transition-colors">
+            <Mail className="h-4 w-4" /> hadiabdulla464@gmail.com
+          </a>
+        </motion.div>
+
+        <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1 }} className="mt-9 flex flex-wrap justify-center gap-3">
           <a href="#projects" className="cursor-target magnetic-button group inline-flex items-center gap-2 rounded-lg bg-matrix px-6 py-3 font-mono text-sm font-bold text-black shadow-[0_0_35px_rgba(0,255,65,.18)]">Explore my work <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></a>
           <a href="https://github.com/Matrified" target="_blank" rel="noopener noreferrer" className="cursor-target inline-flex items-center gap-2 rounded-lg border border-dark-border bg-black/50 px-6 py-3 font-mono text-sm text-gray-300 backdrop-blur-xl hover:border-cyber-cyan/40 hover:text-cyber-cyan transition-all"><SiGithub className="h-4 w-4" />GitHub</a>
           <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="cursor-target inline-flex items-center gap-2 rounded-lg border border-dark-border bg-black/30 px-6 py-3 font-mono text-sm text-gray-400 backdrop-blur-xl hover:border-matrix/40 hover:text-matrix transition-all"><Download className="h-4 w-4" />Resume</a>

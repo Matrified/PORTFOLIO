@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from './useInView';
-import { Code2, MonitorCog, MapPin, Radio, ArrowUpRight } from 'lucide-react';
+import { Code2, MonitorCog, MapPin, Radio, ArrowUpRight, Globe } from 'lucide-react';
 import DecryptText from './DecryptText';
 
 const roles = [
@@ -10,6 +10,8 @@ const roles = [
     role: 'Junior Software Developer',
     period: 'Sep. 2025 — June 2026',
     location: 'Bangalore, India · Remote',
+    logo: '/images/iqtech.png',
+    website: 'https://iqtechsolutions.com/',
     icon: Code2,
     color: 'text-matrix',
     border: 'border-matrix/30',
@@ -24,6 +26,8 @@ const roles = [
     role: 'IT Support & Systems Assistant',
     period: 'March 2024 — July 2024',
     location: 'Doha, Qatar',
+    logo: '/images/rbn.png',
+    website: 'https://rbnqatar.com/',
     icon: MonitorCog,
     color: 'text-cyber-cyan',
     border: 'border-cyber-cyan/30',
@@ -39,7 +43,6 @@ export default function Experience() {
   const { ref, isInView } = useInView(0.1);
   const [active, setActive] = useState(0);
   const selected = roles[active];
-  const Icon = selected.icon;
 
   return (
     <section id="experience" className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" ref={ref}>
@@ -58,13 +61,12 @@ export default function Experience() {
         <div className="grid lg:grid-cols-[340px_1fr] gap-6">
           <div className="space-y-3">
             {roles.map((item, index) => (
-              <button key={item.company} onClick={() => setActive(index)} className={`w-full text-left rounded-xl border p-5 transition-all ${active === index ? `${item.border} bg-white/[0.04] shadow-[0_0_35px_rgba(0,255,65,0.06)]` : 'border-dark-border bg-dark-card/60 hover:border-gray-700'}`}>
+              <button key={item.company} onClick={() => setActive(index)} className={`cursor-target w-full text-left rounded-xl border p-5 transition-all ${active === index ? `${item.border} bg-white/[0.04] shadow-[0_0_35px_rgba(0,255,65,0.06)]` : 'border-dark-border bg-dark-card/60 hover:border-gray-700'}`}>
                 <div className="flex items-center justify-between gap-3">
-                  <div className={`p-2 rounded-lg bg-white/[0.03] ${item.color}`}><item.icon className="w-5 h-5" /></div>
-                  <Radio className={`w-4 h-4 ${active === index ? `${item.color} animate-pulse` : 'text-gray-700'}`} />
+                  <img src={item.logo} alt={item.company} className="h-9 max-w-[70%] object-contain" />
+                  <Radio className={`w-4 h-4 shrink-0 ${active === index ? `${item.color} animate-pulse` : 'text-gray-700'}`} />
                 </div>
-                <h3 className="text-white font-semibold mt-4">{item.company}</h3>
-                <p className="text-gray-500 text-sm mt-1">{item.role}</p>
+                <p className="text-gray-400 text-sm mt-4">{item.role}</p>
               </button>
             ))}
           </div>
@@ -79,9 +81,19 @@ export default function Experience() {
               <motion.div key={selected.company} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }} transition={{ duration: 0.25 }} className="p-7 sm:p-9">
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-5">
                   <div>
-                    <div className={`inline-flex rounded-xl border ${selected.border} bg-white/[0.03] p-3 ${selected.color}`}><Icon className="w-7 h-7" /></div>
+                    <div className="inline-flex items-center rounded-xl border border-dark-border bg-white/[0.04] px-4 py-3">
+                      <img src={selected.logo} alt={selected.company} className="h-10 object-contain" />
+                    </div>
                     <h3 className="mt-5 text-2xl font-display font-bold text-white">{selected.role}</h3>
                     <p className={`mt-1 font-mono text-sm ${selected.color}`}>{selected.company}</p>
+                    <a
+                      href={selected.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`cursor-target mt-3 inline-flex items-center gap-2 rounded-lg border ${selected.border} bg-white/[0.03] px-3 py-1.5 font-mono text-xs ${selected.color} hover:bg-white/[0.07] transition-all`}
+                    >
+                      <Globe className="w-3.5 h-3.5" /> Visit website <ArrowUpRight className="w-3.5 h-3.5" />
+                    </a>
                   </div>
                   <div className="font-mono text-xs text-gray-500 sm:text-right space-y-2">
                     <p>{selected.period}</p>

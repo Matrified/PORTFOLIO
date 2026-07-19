@@ -1,5 +1,4 @@
 import { useRef, type ReactNode } from 'react';
-import { FolderGit2 } from 'lucide-react';
 import './ProjectFolder.css';
 
 interface ProjectFolderProps {
@@ -42,7 +41,7 @@ export default function ProjectFolder({ title, color, icon, year, onOpen }: Proj
         tabIndex={0}
         aria-label={`Open ${title}`}
       >
-        <span className="folder-card__tab"><FolderGit2 className="h-3.5 w-3.5" /></span>
+        <span className="folder-card__tab" />
         <div className="folder-card__body">
           <div className="folder-card__logo">{icon}</div>
           <h3 className="folder-card__title">{title}</h3>

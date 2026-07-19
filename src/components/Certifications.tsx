@@ -98,8 +98,8 @@ export default function Certifications() {
       </div>
 
       {/* Movable circular gallery — full viewport width, click a certificate to open it */}
-      <div className="relative z-10 left-1/2 right-1/2 -mx-[50vw] h-[520px] w-screen">
-        <CircularGallery items={galleryItems} bend={2.5} borderRadius={0.06} scrollEase={0.04} onFocusChange={setFocused} />
+      <div className="relative z-10 left-1/2 right-1/2 -mx-[50vw] h-[640px] w-screen">
+        <CircularGallery items={galleryItems} bend={2} borderRadius={0.06} scrollEase={0.04} onFocusChange={setFocused} />
       </div>
 
       {/* Caption for the focused certificate */}
