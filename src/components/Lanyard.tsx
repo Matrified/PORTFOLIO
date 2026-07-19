@@ -150,7 +150,7 @@ function Band({ frontImage, backImage, maxSpeed = 50, minSpeed = 0 }) {
   );
 }
 
-export default function Lanyard({ position = [0, 0, 14], gravity = [0, -40, 0], fov = 22, frontImage = '/images/lanyard-front.png', backImage = '/images/lanyard-back.png' }) {
+export default function Lanyard({ position = [0, 0, 13], gravity = [0, -40, 0], fov = 26, frontImage = '/images/lanyard-front.png', backImage = '/images/lanyard-back.png' }) {
   return (
     <div className="lanyard3d-wrapper">
       <Canvas camera={{ position, fov }} dpr={[1, 2]} gl={{ alpha: true }} onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), 0)}>

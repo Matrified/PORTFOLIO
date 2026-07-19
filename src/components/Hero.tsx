@@ -48,12 +48,12 @@ export default function Hero() {
         </motion.div>
 
         {/* Quick contact under the name */}
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.85 }} className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-gray-400">
-          <a href="https://www.linkedin.com/in/hadi-abdulla-586464324/" target="_blank" rel="noopener noreferrer" className="cursor-target inline-flex items-center gap-2 hover:text-cyber-cyan transition-colors">
-            <SiLinkedin className="h-4 w-4" /> linkedin.com/in/hadi-abdulla
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.85 }} className="mt-5 flex flex-wrap items-center justify-center gap-3">
+          <a href="https://www.linkedin.com/in/hadi-abdulla-586464324/" target="_blank" rel="noopener noreferrer" className="cursor-target inline-flex items-center gap-2 rounded-lg border border-dark-border bg-black/50 px-5 py-2 font-mono text-sm text-gray-300 backdrop-blur-xl hover:border-cyber-cyan/40 hover:text-cyber-cyan transition-all">
+            <SiLinkedin className="h-4 w-4" /> LinkedIn
           </a>
-          <a href="mailto:hadiabdulla464@gmail.com" className="cursor-target inline-flex items-center gap-2 hover:text-matrix transition-colors">
-            <Mail className="h-4 w-4" /> hadiabdulla464@gmail.com
+          <a href="mailto:hadiabdulla464@gmail.com" className="cursor-target inline-flex items-center gap-2 rounded-lg border border-dark-border bg-black/50 px-5 py-2 font-mono text-sm text-gray-300 backdrop-blur-xl hover:border-matrix/40 hover:text-matrix transition-all">
+            <Mail className="h-4 w-4" /> Email
           </a>
         </motion.div>
 

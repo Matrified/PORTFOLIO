@@ -49,7 +49,7 @@ export default function About() {
           <p className="text-gray-500 font-mono text-sm mt-2">// getting to know me</p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+        <div className="grid lg:grid-cols-2 gap-12 items-start relative">
           {/* Left column — bio, quick facts, interests */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -124,19 +124,32 @@ export default function About() {
             </div>
           </motion.div>
 
-          {/* Right column — the 3D lanyard fills the whole side */}
+          {/* Right column — lanyard overflows container, overlays content */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="lg:sticky lg:top-24 h-[640px]"
+            className="lg:sticky lg:top-24 hidden lg:block"
+            style={{ height: 0 }}
           >
+            {/* Overflows vertically past sibling cards; zIndex sits above the text content */}
+            <div style={{ position: 'absolute', top: '-60px', left: 0, right: 0, height: '800px', zIndex: 20, pointerEvents: 'auto' }}>
+              <ErrorBoundary fallback={<PhotoFallback />}>
+                <Suspense fallback={<div className="flex h-full items-center justify-center font-mono text-xs text-gray-600">loading badge...</div>}>
+                  {isInView && <Lanyard />}
+                </Suspense>
+              </ErrorBoundary>
+            </div>
+          </motion.div>
+
+          {/* Mobile — normal flow lanyard */}
+          <div className="lg:hidden h-[500px]">
             <ErrorBoundary fallback={<PhotoFallback />}>
               <Suspense fallback={<div className="flex h-full items-center justify-center font-mono text-xs text-gray-600">loading badge...</div>}>
                 {isInView && <Lanyard />}
               </Suspense>
             </ErrorBoundary>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
